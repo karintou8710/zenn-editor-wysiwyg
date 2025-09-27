@@ -39,6 +39,9 @@ jobs:
 
   test-browser:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/zenn-wysiwyg-editor
     strategy:
       matrix:
         browser: [chromium, firefox, webkit]
@@ -60,8 +63,6 @@ jobs:
 
       - name: Setup Playwright Browsers
         run: pnpm exec playwright install --with-deps ${{ matrix.browser }}
-        working-directory: packages/zenn-wysiwyg-editor
 
       - name: Run vitest browser mode tests
         run: pnpm test:browser --project=${{ matrix.browser }}
-        working-directory: packages/zenn-wysiwyg-editor
