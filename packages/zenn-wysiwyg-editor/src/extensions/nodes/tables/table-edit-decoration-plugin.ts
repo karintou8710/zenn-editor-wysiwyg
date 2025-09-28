@@ -47,48 +47,43 @@ function calculateFirstCellEndInRow($from: ResolvedPos): number {
   return $from.before(-2) + firstCell.nodeSize;
 }
 
-function getDecorations(doc: Node, editor: Editor) {
+function getDecorations(doc: Node, editor: Editor, element: HTMLElement) {
   const decorations: Decoration[] = [];
   const { $from } = editor.state.selection;
 
+  if ($from.depth < 2) return DecorationSet.empty;
   if (
-    $from.node(-1).type.name === 'tableCell' ||
-    $from.node(-1).type.name === 'tableHeader'
+    $from.node(-1).type.name !== 'tableCell' &&
+    $from.node(-1).type.name !== 'tableHeader'
   ) {
-    const containerEl = createContainerElement();
-    const firstCellEndInRow = calculateFirstCellEndInRow($from);
-
-    let component: ReactRenderer | null = null;
-    decorations.push(
-      Decoration.widget(
-        firstCellEndInRow,
-        () => {
-          component = createTableEditRenderer(editor);
-          containerEl.appendChild(component.element);
-          return containerEl;
-        },
-        {
-          destroy: () => {
-            if (component) {
-              component.destroy();
-              component = null;
-            }
-          },
-        }
-      )
-    );
+    return DecorationSet.empty;
   }
+
+  decorations.push(
+    Decoration.widget(calculateFirstCellEndInRow($from), () => {
+      return element;
+    })
+  );
 
   return DecorationSet.create(doc, decorations);
 }
 
 export function createTableEditDecorationPlugin(editor: Editor) {
+  const renderer = createTableEditRenderer(editor);
+
   return new Plugin({
     key: new PluginKey('tableEditDecorationPlugin'),
     props: {
       decorations(state) {
-        return getDecorations(state.doc, editor);
+        const containerEl = createContainerElement();
+        containerEl.appendChild(renderer.element);
+        return getDecorations(state.doc, editor, containerEl);
       },
     },
+    view: () => ({
+      destroy: () => {
+        renderer.destroy();
+      },
+    }),
   });
 }

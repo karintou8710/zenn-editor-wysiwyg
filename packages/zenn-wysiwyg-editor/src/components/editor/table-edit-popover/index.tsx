@@ -16,7 +16,14 @@ export default function TableEditPopover({ items }: Props) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <button className={styles.trigger}>
+        <button
+          className={styles.trigger}
+          /* onClick 発火までに onMouseDown でイベントが止まるため、イベントをストップする（原因不明） */
+          onMouseDown={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+          }}
+        >
           <svg viewBox="0 0 4 16" fill="currentColor">
             <circle cx="2" cy="6" r="0.5" />
             <circle cx="2" cy="8" r="0.5" />
