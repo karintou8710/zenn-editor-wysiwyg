@@ -1,5 +1,6 @@
 import { Table as TiptapTable } from '@tiptap/extension-table';
 import { InputRule } from '@tiptap/react';
+import { createTableEditDecorationPlugin } from './table-edit-decoration-plugin';
 
 export const Table = TiptapTable.extend({
   addInputRules() {
@@ -36,5 +37,9 @@ export const Table = TiptapTable.extend({
         undoable: false,
       }),
     ];
+  },
+
+  addProseMirrorPlugins() {
+    return [createTableEditDecorationPlugin(this.editor)];
   },
 });

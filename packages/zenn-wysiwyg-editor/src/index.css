@@ -151,9 +151,16 @@
   }
 
   table {
+    /*
+      display: block + overflow: auto だと、td でオーバーフローすると表示されなくなってしまう。
+      編集UIのアイコンを表示するため、visibleにする。
+    */
+    overflow: visible;
+
     th,
     td {
       min-width: 80px;
+      position: relative;
     }
   }
 }
