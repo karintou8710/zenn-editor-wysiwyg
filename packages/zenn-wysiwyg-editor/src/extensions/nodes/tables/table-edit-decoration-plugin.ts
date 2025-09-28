@@ -24,17 +24,45 @@ function createTableEditRenderer(editor: Editor): ReactRenderer {
         {
           value: 'add_row_before',
           label: '行を上に追加',
-          command: () => editor.chain().addRowBefore().focus().run(),
+          command: () =>
+            editor
+              .chain()
+              .toggleHeaderRow() // 全体をtdにする -> 行追加 -> 先頭の行をヘッダーに戻す
+              .addRowBefore()
+              .toggleHeaderRow()
+              .focus()
+              .run(),
         },
         {
           value: 'add_row_after',
           label: '行を下に追加',
-          command: () => editor.chain().addRowAfter().focus().run(),
+          command: () =>
+            editor
+              .chain()
+              .toggleHeaderRow() // 全体をtdにする -> 行追加 -> 先頭の行をヘッダーに戻す
+              .addRowAfter()
+              .toggleHeaderRow()
+              .focus()
+              .run(),
         },
         {
           value: 'delete_row',
           label: '行を削除',
-          command: () => editor.chain().deleteRow().focus().run(),
+          command: () => {
+            const { $from } = editor.state.selection; // セルの中の段落を選択中
+            const table = $from.node(-3);
+            if (table.childCount <= 1) {
+              // 行が1行しかない場合はテーブルごと削除
+              return editor.chain().deleteTable().focus().run();
+            }
+
+            if ($from.index(-3) === 0) {
+              // 先頭行を削除する場合は、先頭の行をヘッダーに戻す
+              return editor.chain().deleteRow().toggleHeaderRow().focus().run();
+            }
+
+            return editor.chain().deleteRow().focus().run();
+          },
         },
       ],
     },
