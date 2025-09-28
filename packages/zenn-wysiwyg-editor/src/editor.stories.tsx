@@ -55,3 +55,36 @@ export const CodeBlock: Story = {
     `,
   },
 };
+
+export const Table: Story = {
+  args: {
+    initialContent: `
+    <table>
+      <thead>
+        <tr>
+          <th>項目</th>
+          <th>値</th>
+          <th>備考</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>項目1</td>
+          <td>値1</td>
+          <td>備考1</td>
+        </tr>
+        <tr>
+          <td>項目2</td>
+          <td>値2</td>
+          <td>備考2</td>
+        </tr>
+        <tr>
+          <td>項目3</td>
+          <td>値3</td>
+          <td>備考3</td>
+        </tr>
+      </tbody>
+    </table>
+    `,
+  },
+};
