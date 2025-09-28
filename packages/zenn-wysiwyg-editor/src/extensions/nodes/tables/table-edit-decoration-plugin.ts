@@ -1,4 +1,4 @@
-import type { Node } from '@tiptap/pm/model';
+import type { Node, ResolvedPos } from '@tiptap/pm/model';
 import { Plugin, PluginKey } from '@tiptap/pm/state';
 import { Decoration, DecorationSet } from '@tiptap/pm/view';
 import { Editor, ReactRenderer } from '@tiptap/react';
@@ -41,10 +41,10 @@ function createTableEditRenderer(editor: Editor): ReactRenderer {
   });
 }
 
-function calculateFirstCellEndInRow($from: any): number {
-  const firstCell = $from.node(-1).firstChild;
+function calculateFirstCellEndInRow($from: ResolvedPos): number {
+  const firstCell = $from.node(-2).firstChild;
   if (!firstCell) throw new Error('No first cell found in the table row');
-  return $from.before(-1) + firstCell.nodeSize - 1;
+  return $from.before(-2) + firstCell.nodeSize;
 }
 
 function getDecorations(doc: Node, editor: Editor) {
@@ -52,8 +52,8 @@ function getDecorations(doc: Node, editor: Editor) {
   const { $from } = editor.state.selection;
 
   if (
-    $from.parent.type.name === 'tableCell' ||
-    $from.parent.type.name === 'tableHeader'
+    $from.node(-1).type.name === 'tableCell' ||
+    $from.node(-1).type.name === 'tableHeader'
   ) {
     const containerEl = createContainerElement();
     const firstCellEndInRow = calculateFirstCellEndInRow($from);
