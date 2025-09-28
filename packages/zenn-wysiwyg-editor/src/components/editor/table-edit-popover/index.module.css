@@ -5,12 +5,20 @@
   justify-content: center;
   background-color: #3b82f6;
   color: white;
-  width: 10px;
-  height: 20px;
 
   &:hover {
     opacity: 0.8;
   }
+}
+
+.triggerRow {
+  width: 10px;
+  height: 20px;
+}
+
+.triggerCol {
+  width: 20px;
+  height: 10px;
 }
 
 .container {

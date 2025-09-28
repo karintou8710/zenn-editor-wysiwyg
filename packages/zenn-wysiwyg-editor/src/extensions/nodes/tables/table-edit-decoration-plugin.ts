@@ -4,22 +4,30 @@ import { Decoration, DecorationSet } from '@tiptap/pm/view';
 import { Editor, ReactRenderer } from '@tiptap/react';
 import TableEditPopover from '../../../components/editor/table-edit-popover';
 
-function createContainerElement(): HTMLDivElement {
+function createContainerElement(type: 'row' | 'col'): HTMLDivElement {
   const containerEl = document.createElement('div');
   containerEl.style.position = 'absolute';
-  containerEl.style.top = '0';
-  containerEl.style.right = 'auto';
-  containerEl.style.bottom = '0';
-  containerEl.style.left = '-10px';
-  containerEl.style.height = '20px';
-  containerEl.style.margin = 'auto 0';
+  if (type === 'row') {
+    containerEl.style.top = '0';
+    containerEl.style.bottom = '0';
+    containerEl.style.left = '-10px';
+    containerEl.style.height = '20px';
+    containerEl.style.margin = 'auto 0';
+  } else {
+    containerEl.style.top = '-10px';
+    containerEl.style.right = '0';
+    containerEl.style.left = '0';
+    containerEl.style.width = '20px';
+    containerEl.style.margin = '0 auto';
+  }
   return containerEl;
 }
 
-function createTableEditRenderer(editor: Editor): ReactRenderer {
+function createTableRowEditRenderer(editor: Editor): ReactRenderer {
   return new ReactRenderer(TableEditPopover, {
     editor: editor,
     props: {
+      type: 'row',
       items: [
         {
           value: 'add_row_before',
@@ -69,13 +77,79 @@ function createTableEditRenderer(editor: Editor): ReactRenderer {
   });
 }
 
+function createTableColEditRenderer(editor: Editor): ReactRenderer {
+  return new ReactRenderer(TableEditPopover, {
+    editor: editor,
+    props: {
+      type: 'col',
+      items: [
+        {
+          value: 'add_col_before',
+          label: '列を左に追加',
+          command: () =>
+            editor
+              .chain()
+              .toggleHeaderRow() // 全体をtdにする -> 列追加 -> 先頭の行をヘッダーに戻す
+              .addColumnBefore()
+              .toggleHeaderRow()
+              .focus()
+              .run(),
+        },
+        {
+          value: 'add_col_after',
+          label: '列を右に追加',
+          command: () =>
+            editor
+              .chain()
+              .toggleHeaderRow() // 全体をtdにする -> 列追加 -> 先頭の行をヘッダーに戻す
+              .addColumnAfter()
+              .toggleHeaderRow()
+              .focus()
+              .run(),
+        },
+        {
+          value: 'delete_col',
+          label: '列を削除',
+          command: () => {
+            const { $from } = editor.state.selection; // セルの中の段落を選択中
+            const row = $from.node(-2);
+            if (row.childCount <= 1) {
+              // 列が1列しかない場合はテーブルごと削除
+              return editor.chain().deleteTable().focus().run();
+            }
+
+            return editor.chain().deleteColumn().focus().run();
+          },
+        },
+      ],
+    },
+  });
+}
+
 function calculateFirstCellEndInRow($from: ResolvedPos): number {
   const firstCell = $from.node(-2).firstChild;
   if (!firstCell) throw new Error('No first cell found in the table row');
   return $from.before(-2) + firstCell.nodeSize;
 }
 
-function getDecorations(doc: Node, editor: Editor, element: HTMLElement) {
+function calculateFirstCellInCol($from: ResolvedPos): number {
+  const table = $from.node(-3); // $from は td or th の中の p
+  let pos = $from.start(-3) + 2; // テーブルの最初のセルの中
+  const firstRow = table.firstChild;
+  if (!firstRow) throw new Error('No first row found in the table');
+
+  for (let i = 0; i < $from.index(-2); i++) {
+    pos += firstRow.child(i).nodeSize;
+  }
+  return pos;
+}
+
+function getDecorations(
+  doc: Node,
+  editor: Editor,
+  rowEl: HTMLElement,
+  colEl: HTMLElement
+) {
   const decorations: Decoration[] = [];
   const { $from } = editor.state.selection;
 
@@ -89,7 +163,12 @@ function getDecorations(doc: Node, editor: Editor, element: HTMLElement) {
 
   decorations.push(
     Decoration.widget(calculateFirstCellEndInRow($from), () => {
-      return element;
+      return rowEl;
+    })
+  );
+  decorations.push(
+    Decoration.widget(calculateFirstCellInCol($from), () => {
+      return colEl;
     })
   );
 
@@ -97,20 +176,29 @@ function getDecorations(doc: Node, editor: Editor, element: HTMLElement) {
 }
 
 export function createTableEditDecorationPlugin(editor: Editor) {
-  const renderer = createTableEditRenderer(editor);
+  const rowRenderer = createTableRowEditRenderer(editor);
+  const colRenderer = createTableColEditRenderer(editor);
 
   return new Plugin({
     key: new PluginKey('tableEditDecorationPlugin'),
     props: {
       decorations(state) {
-        const containerEl = createContainerElement();
-        containerEl.appendChild(renderer.element);
-        return getDecorations(state.doc, editor, containerEl);
+        const containerRowEl = createContainerElement('row');
+        const containerColEl = createContainerElement('col');
+        containerRowEl.appendChild(rowRenderer.element);
+        containerColEl.appendChild(colRenderer.element);
+        return getDecorations(
+          state.doc,
+          editor,
+          containerRowEl,
+          containerColEl
+        );
       },
     },
     view: () => ({
       destroy: () => {
-        renderer.destroy();
+        rowRenderer.destroy();
+        colRenderer.destroy();
       },
     }),
   });
