@@ -35,7 +35,7 @@ function createTableRowEditRenderer(editor: Editor): ReactRenderer {
           command: () =>
             editor
               .chain()
-              .toggleHeaderRow() // 全体をtdにする -> 行追加 -> 先頭の行をヘッダーに戻す
+              .unsetTableHeader()
               .addRowBefore()
               .toggleHeaderRow()
               .focus()
@@ -47,7 +47,7 @@ function createTableRowEditRenderer(editor: Editor): ReactRenderer {
           command: () =>
             editor
               .chain()
-              .toggleHeaderRow() // 全体をtdにする -> 行追加 -> 先頭の行をヘッダーに戻す
+              .unsetTableHeader()
               .addRowAfter()
               .toggleHeaderRow()
               .focus()
@@ -89,7 +89,7 @@ function createTableColEditRenderer(editor: Editor): ReactRenderer {
           command: () =>
             editor
               .chain()
-              .toggleHeaderRow() // 全体をtdにする -> 列追加 -> 先頭の行をヘッダーに戻す
+              .unsetTableHeader() // 全体をtdにする -> 列追加 -> 先頭の行をヘッダーに戻す
               .addColumnBefore()
               .toggleHeaderRow()
               .focus()
@@ -101,7 +101,7 @@ function createTableColEditRenderer(editor: Editor): ReactRenderer {
           command: () =>
             editor
               .chain()
-              .toggleHeaderRow() // 全体をtdにする -> 列追加 -> 先頭の行をヘッダーに戻す
+              .unsetTableHeader() // 全体をtdにする -> 列追加 -> 先頭の行をヘッダーに戻す
               .addColumnAfter()
               .toggleHeaderRow()
               .focus()
