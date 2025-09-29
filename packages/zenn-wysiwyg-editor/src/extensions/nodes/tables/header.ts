@@ -12,6 +12,10 @@ declare module '@tiptap/core' {
 }
 
 export const TableHeader = TiptapTableHeader.extend({
+  /*
+   * text* だとデコレーション配置周りで不具合があるため、編集用に paragraph に固定する。
+   * この paragraph はマークダウン出力をしない。
+   */
   content: 'paragraph',
 
   addCommands() {

@@ -230,7 +230,9 @@ const markdownSerializer = new MarkdownSerializer(
         state.tableRowIsFirst = false;
         state.write('| ');
       }
-      state.renderInline(node);
+      const paragraph = node.firstChild; // 編集用のためにparagraphを入れているので、それを無視して中身を取得
+      if (!paragraph) throw new Error('No paragraph found in the table cell');
+      state.renderInline(paragraph);
       state.write(' | ');
     },
     tableCell(state, node) {
@@ -238,7 +240,9 @@ const markdownSerializer = new MarkdownSerializer(
         state.tableRowIsFirst = false;
         state.write('| ');
       }
-      state.renderInline(node);
+      const paragraph = node.firstChild; // 編集用のためにparagraphを入れているので、それを無視して中身を取得
+      if (!paragraph) throw new Error('No paragraph found in the table cell');
+      state.renderInline(paragraph);
       state.write(' | ');
     },
     loading() {
