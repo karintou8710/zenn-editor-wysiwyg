@@ -7,7 +7,6 @@ let ___global_rendered_editor: Editor | null = null;
 
 beforeEach(() => {
   ___global_container = document.createElement('div');
-  ___global_container.setAttribute('class', 'znc');
   document.body.appendChild(___global_container);
   ___global_rendered_editor?.destroy();
 });
@@ -32,6 +31,11 @@ export function renderTiptapEditor({
     element: ___global_container,
     extensions,
     content,
+    editorProps: {
+      attributes: {
+        class: 'znc',
+      },
+    },
   });
 
   return ___global_rendered_editor;
