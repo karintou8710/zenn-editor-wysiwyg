@@ -1,6 +1,6 @@
 {
   "name": "zenn-wysiwyg-editor",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "Zenn WYSIWYG Editor",
   "repository": {
     "type": "git",
@@ -71,6 +71,7 @@
     "zenn-content-css": "^0.2.1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.52.0",
     "@storybook/addon-docs": "^9.1.6",
     "@storybook/addon-onboarding": "^9.1.6",
     "@storybook/react-vite": "^9.1.6",
@@ -93,12 +94,11 @@
     "typescript": "~5.8.3",
     "vitest": "^3.2.4",
     "vitest-browser-react": "^1.0.1",
-    "zenn-markdown-html": "workspace:zenn-markdown-html",
-    "@playwright/test": "^1.52.0"
+    "zenn-markdown-html": "workspace:zenn-markdown-html"
   },
   "peerDependencies": {
-    "@tiptap/pm": "^3.6.0",
     "@tiptap/core": "^3.6.0",
+    "@tiptap/pm": "^3.6.0",
     "@tiptap/react": "^3.6.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
