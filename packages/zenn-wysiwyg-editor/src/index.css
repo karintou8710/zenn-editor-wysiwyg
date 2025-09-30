@@ -152,11 +152,9 @@
   }
 
   table {
-    /*
-      display: block + overflow: auto だと、td でオーバーフローすると表示されなくなってしまう。
-      編集UIのアイコンを表示するため、visibleにする。
-    */
-    overflow: visible;
+    /* 編集メニューが overflow で隠れないように padding をつける */
+    padding-top: 10px;
+    padding-left: 10px;
 
     th,
     td {
