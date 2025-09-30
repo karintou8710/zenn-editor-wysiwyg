@@ -44,7 +44,7 @@ export const items: SuggestionItem[] = [
   },
   {
     value: 'table',
-    label: 'テーブル (3x3)',
+    label: 'テーブル',
     command: ({ editor, range }) => {
       editor
         .chain()

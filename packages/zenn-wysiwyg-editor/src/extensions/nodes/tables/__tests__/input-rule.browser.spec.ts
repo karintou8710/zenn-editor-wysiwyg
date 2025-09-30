@@ -34,9 +34,9 @@ describe('InputRule', () => {
 
     const docString = editor.state.doc.toString();
     expect(docString).toBe(
-      'doc(table(tableRow(tableHeader)), paragraph("Text"))'
+      'doc(table(tableRow(tableHeader(paragraph))), paragraph("Text"))'
     );
-    expect(editor.state.selection.from).toBe(3);
+    expect(editor.state.selection.from).toBe(4);
   });
 
   it(':::table2-3で 2×3のテーブルが作成される', async () => {
@@ -52,9 +52,9 @@ describe('InputRule', () => {
 
     const docString = editor.state.doc.toString();
     expect(docString).toBe(
-      'doc(table(tableRow(tableHeader, tableHeader, tableHeader), tableRow(tableCell, tableCell, tableCell)), paragraph("Text"))'
+      'doc(table(tableRow(tableHeader(paragraph), tableHeader(paragraph), tableHeader(paragraph)), tableRow(tableCell(paragraph), tableCell(paragraph), tableCell(paragraph))), paragraph("Text"))'
     );
-    expect(editor.state.selection.from).toBe(3);
+    expect(editor.state.selection.from).toBe(4);
   });
 
   it(':::table3-2で 3×2のテーブルが作成される', async () => {
@@ -70,9 +70,9 @@ describe('InputRule', () => {
 
     const docString = editor.state.doc.toString();
     expect(docString).toBe(
-      'doc(table(tableRow(tableHeader, tableHeader), tableRow(tableCell, tableCell), tableRow(tableCell, tableCell)), paragraph("Text"))'
+      'doc(table(tableRow(tableHeader(paragraph), tableHeader(paragraph)), tableRow(tableCell(paragraph), tableCell(paragraph)), tableRow(tableCell(paragraph), tableCell(paragraph))), paragraph("Text"))'
     );
-    expect(editor.state.selection.from).toBe(3);
+    expect(editor.state.selection.from).toBe(4);
   });
 
   it('行の途中では InputRule が発動しない', async () => {

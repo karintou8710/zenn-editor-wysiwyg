@@ -1,6 +1,7 @@
 @import 'zenn-content-css/lib/index.css';
 
-.tiptap {
+/* .znc のクラスを上書きするため、.znc.tiptapという優先度が高いセレクタにする */
+.znc.tiptap {
   outline: none;
   min-height: 600px;
 
@@ -151,15 +152,20 @@
   }
 
   table {
+    /* 編集メニューが overflow で隠れないように padding をつける */
+    padding-top: 10px;
+    padding-left: 10px;
+
     th,
     td {
       min-width: 80px;
+      position: relative;
     }
   }
 }
 
 /* Selection */
-.tiptap {
+.znc.tiptap {
   .ProseMirror-selectednode {
     position: relative;
 
@@ -195,7 +201,7 @@
 }
 
 /* Placeholder */
-.tiptap {
+.znc.tiptap {
   p.is-editor-empty:first-child::before {
     color: #adb5bd;
     content: attr(data-placeholder);
