@@ -171,6 +171,19 @@ export const Details = Node.create({
       return {
         dom,
         contentDOM: dom,
+        update: (updatedNode) => {
+          if (updatedNode.type !== this.type) {
+            return false;
+          }
+
+          if (updatedNode.attrs.open) {
+            dom.setAttribute('data-open', '');
+          } else {
+            dom.removeAttribute('data-open');
+          }
+
+          return true;
+        },
       };
     };
   },
