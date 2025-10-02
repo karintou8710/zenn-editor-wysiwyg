@@ -10,7 +10,6 @@ export const BlockMath = Node.create({
     return {
       latex: {
         default: '',
-        rendered: false,
       },
     };
   },

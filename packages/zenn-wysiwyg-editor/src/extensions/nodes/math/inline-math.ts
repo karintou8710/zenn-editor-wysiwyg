@@ -11,7 +11,6 @@ export const InlineMath = Node.create({
     return {
       latex: {
         default: '',
-        rendered: false,
       },
     };
   },

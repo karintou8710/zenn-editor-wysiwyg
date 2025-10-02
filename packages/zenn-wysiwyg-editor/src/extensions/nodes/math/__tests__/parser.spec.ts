@@ -49,9 +49,7 @@ describe('InlineMath のパース', () => {
     expect(docString).toBe(
       'doc(paragraph("質量エネルギー等価性は", inlineMath, "で表される"))'
     );
-    expect(editor.state.doc.firstChild?.children[1].attrs.latex).toBe(
-      'E = mc^2'
-    );
+    expect(editor.state.doc.firstChild?.child(1).attrs.latex).toBe('E = mc^2');
   });
 
   it('複数のinlineMath要素を含むパラグラフをパースできる', () => {
