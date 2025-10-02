@@ -251,7 +251,7 @@ const markdownSerializer = new MarkdownSerializer(
     blockMath(state, node) {
       state.write('$$\n');
       state.text(node.attrs.latex || '', false);
-      state.write('\n$$');
+      state.text('\n$$'); // 引用の > 対応のために text で出力
       state.closeBlock(node);
     },
     inlineMath(state, node) {

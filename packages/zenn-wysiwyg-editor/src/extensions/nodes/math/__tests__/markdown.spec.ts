@@ -46,7 +46,7 @@ describe('BlockMath のマークダウン', () => {
     const docString = editor.state.doc.toString();
 
     expect(docString).toBe('doc(blockMath)');
-    expect(editor.state.doc.firstChild?.attrs.latex).toBe('\nE = mc^2\n');
+    expect(editor.state.doc.firstChild?.attrs.latex).toBe('E = mc^2');
   });
 });
 

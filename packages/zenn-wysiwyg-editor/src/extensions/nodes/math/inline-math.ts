@@ -20,7 +20,7 @@ export const InlineMath = Node.create({
       {
         tag: 'embed-katex:not([display-mode])',
         getAttrs: (node) => {
-          const latex = node.textContent ?? '';
+          const latex = node.textContent?.trim() ?? '';
           return { latex };
         },
       },
