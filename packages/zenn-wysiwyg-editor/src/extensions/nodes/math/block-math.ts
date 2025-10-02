@@ -22,7 +22,6 @@ export const BlockMath = Node.create({
         tag: 'embed-katex[display-mode="1"]',
         getAttrs: (node) => {
           const latex = node.textContent ?? '';
-          console.log(latex);
           return { latex };
         },
       },
