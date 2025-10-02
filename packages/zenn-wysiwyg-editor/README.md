@@ -46,7 +46,7 @@ export const EditableBodyContent: React.FC = () => {
 - [x] テキストリンク
 - [x] 脚注
 - [x] テーブル
-- [ ] 数式 (Katex)
+- [x] 数式 (Katex)
 
 マーク
 
