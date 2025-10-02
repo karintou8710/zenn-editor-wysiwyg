@@ -248,6 +248,17 @@ const markdownSerializer = new MarkdownSerializer(
     loading() {
       // loadingノードはMarkdownに変換しない
     },
+    blockMath(state, node) {
+      state.write('$$\n');
+      state.text(node.attrs.latex || '', false);
+      state.write('\n$$');
+      state.closeBlock(node);
+    },
+    inlineMath(state, node) {
+      state.write('$');
+      state.text(node.attrs.latex || '', false);
+      state.write('$');
+    },
   },
   {
     link: {

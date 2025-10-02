@@ -94,7 +94,8 @@
     "typescript": "~5.8.3",
     "vitest": "^3.2.4",
     "vitest-browser-react": "^1.0.1",
-    "zenn-markdown-html": "workspace:zenn-markdown-html"
+    "zenn-markdown-html": "workspace:zenn-markdown-html",
+    "zenn-embed-elements": "workspace:zenn-embed-elements"
   },
   "peerDependencies": {
     "@tiptap/core": "^3.6.0",

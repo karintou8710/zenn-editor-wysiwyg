@@ -19,5 +19,13 @@ const config: StorybookConfig = {
     name: getAbsolutePath('@storybook/react-vite'),
     options: {},
   },
+  viteFinal: async (config) => {
+    config.resolve = config.resolve || {};
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      'zenn-embed-elements': 'zenn-embed-elements/src/index.ts',
+    };
+    return config;
+  },
 };
 export default config;

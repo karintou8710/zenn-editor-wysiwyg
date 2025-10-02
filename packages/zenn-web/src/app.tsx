@@ -1,6 +1,6 @@
 import 'zenn-wysiwyg-editor/dist/style.css';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { parseToc } from 'zenn-markdown-html';
 import type { TocNode } from 'zenn-model/lib/types';
 import { EditorContent, useZennEditor } from 'zenn-wysiwyg-editor';
@@ -29,6 +29,10 @@ function App() {
       showToast(message.text, message.type);
     },
   });
+
+  useEffect(() => {
+    import('zenn-embed-elements');
+  }, []);
 
   return (
     <div className={styles.container}>

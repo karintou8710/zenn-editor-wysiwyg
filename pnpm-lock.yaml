@@ -416,6 +416,9 @@ importers:
       sonner:
         specifier: ^2.0.7
         version: 2.0.7(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      zenn-embed-elements:
+        specifier: workspace:*
+        version: link:../zenn-embed-elements
       zenn-markdown-html:
         specifier: workspace:*
         version: link:../zenn-markdown-html
@@ -625,6 +628,9 @@ importers:
       vitest-browser-react:
         specifier: ^1.0.1
         version: 1.0.1(@types/react-dom@18.0.11)(@types/react@18.0.28)(@vitest/browser@3.2.4)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(vitest@3.2.4)
+      zenn-embed-elements:
+        specifier: workspace:zenn-embed-elements
+        version: link:../zenn-embed-elements
       zenn-markdown-html:
         specifier: workspace:zenn-markdown-html
         version: link:../zenn-markdown-html
