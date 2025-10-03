@@ -1,11 +1,9 @@
-import crypto from 'crypto';
 import markdownIt from 'markdown-it';
 import { sanitize } from './sanitizer';
 import { embedGenerators } from './embed';
 import { MarkdownOptions } from './types';
 
 // plugis
-import markdownItImSize from '@steelydylan/markdown-it-imsize';
 import markdownItAnchor from 'markdown-it-anchor';
 import { mdBr } from './utils/md-br';
 import { mdKatex } from './utils/md-katex';
@@ -20,10 +18,23 @@ import {
   containerMessageOptions,
 } from './utils/md-container';
 
-const mdContainer = require('markdown-it-container');
-const mdFootnote = require('markdown-it-footnote');
-const mdTaskLists = require('markdown-it-task-lists');
-const mdInlineComments = require('markdown-it-inline-comments');
+import mdContainer from 'markdown-it-container';
+import mdFootnote from 'markdown-it-footnote';
+import mdTaskLists from 'markdown-it-task-lists';
+import mdInlineComments from 'markdown-it-inline-comments';
+import cryptoRandomString from 'crypto-random-string';
+import Prism from 'prismjs';
+
+/*
+ * @steelydylan/markdown-it-imsize は __esModule を指定した CJS しか配布していない。
+ * exports.default をしているため、Native ESM からインポートすると { default: fn } の形式になってしまう。
+ * CJS からは __toESM により default エクスポートが解決されるため問題ない。
+ */
+import markdownItImSizeCjs from '@steelydylan/markdown-it-imsize';
+import { esmInterop } from './utils/mod';
+
+// Native ESM からインポートされた場合に備えて、mod.default をインポートできるようにする
+const markdownItImSize = esmInterop(markdownItImSizeCjs);
 
 const markdownToHtml = (text: string, options?: MarkdownOptions): string => {
   if (!(text && text.length)) return '';
@@ -75,9 +86,16 @@ const markdownToHtml = (text: string, options?: MarkdownOptions): string => {
   // 1ページの中で重複しなければ問題ないため、ごく短いランダムな文字列とする
   // - https://github.com/zenn-dev/zenn-community/issues/356
   // - https://github.com/markdown-it/markdown-it-footnote/pull/8
-  const docId = crypto.randomBytes(2).toString('hex');
+  const docId = cryptoRandomString({ length: 4, type: 'hex' });
   return sanitize(md.render(text, { docId }));
 };
 
 export default markdownToHtml;
 export { markdownToSimpleHtml } from './markdown-to-simple-html';
+export { parseToc } from './utils/toc';
+export * from './embed';
+export * from './utils/url-matcher';
+export * from './utils/embed-helper';
+
+// Prismjsに全言語とdiffプラグインを読み込んだ状態でエクスポートする
+export { Prism };

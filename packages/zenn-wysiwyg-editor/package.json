@@ -1,0 +1,112 @@
+{
+  "name": "zenn-wysiwyg-editor",
+  "version": "0.0.18",
+  "description": "Zenn WYSIWYG Editor",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/karintou8710/zenn-editor-wysiwyg.git",
+    "directory": "packages/zenn-wysiwyg-editor"
+  },
+  "type": "module",
+  "keywords": [
+    "tiptap",
+    "wysiwyg",
+    "zenn"
+  ],
+  "author": "karintou8710",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc && tsup",
+    "lint": "run-s lint:*",
+    "lint:eslint": "eslint . --ext .ts,.tsx",
+    "lint:prettier": "prettier .",
+    "lint-strict": "run-s lint-strict:*",
+    "lint-strict:eslint": "eslint . --ext .ts,.tsx --max-warnings 0",
+    "lint-strict:prettier": "prettier --check .",
+    "fix": "run-s fix:*",
+    "fix:eslint": "eslint . --ext .ts,.tsx --fix",
+    "fix:prettier": "prettier -w .",
+    "test": "run-s test:*",
+    "test:node": "vitest run",
+    "test:browser": "vitest run --config=vitest.browser.config.ts",
+    "test-debug": "vitest --config=vitest.browser.config.ts --project=chromium --browser.headless=false",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./dist/style.css": {
+      "default": "./dist/index.css"
+    }
+  },
+  "dependencies": {
+    "@floating-ui/dom": "^1.7.4",
+    "@radix-ui/react-popover": "^1.1.15",
+    "@tiptap/extension-blockquote": "^3.6.0",
+    "@tiptap/extension-bold": "^3.6.0",
+    "@tiptap/extension-bubble-menu": "^3.6.0",
+    "@tiptap/extension-code": "^3.6.0",
+    "@tiptap/extension-code-block": "^3.6.0",
+    "@tiptap/extension-document": "^3.6.0",
+    "@tiptap/extension-hard-break": "^3.6.0",
+    "@tiptap/extension-heading": "^3.6.0",
+    "@tiptap/extension-horizontal-rule": "^3.6.0",
+    "@tiptap/extension-image": "^3.6.0",
+    "@tiptap/extension-italic": "^3.6.0",
+    "@tiptap/extension-link": "^3.6.0",
+    "@tiptap/extension-list": "^3.6.0",
+    "@tiptap/extension-paragraph": "^3.6.0",
+    "@tiptap/extension-strike": "^3.6.0",
+    "@tiptap/extension-table": "^3.6.0",
+    "@tiptap/extension-text": "^3.6.0",
+    "@tiptap/extensions": "^3.6.0",
+    "@tiptap/suggestion": "^3.6.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.539.0",
+    "prosemirror-markdown": "^1.13.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@storybook/addon-docs": "^9.1.6",
+    "@storybook/addon-onboarding": "^9.1.6",
+    "@storybook/react-vite": "^9.1.6",
+    "@types/node": "^24.2.1",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.52.0",
+    "@typescript-eslint/parser": "^5.52.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "@vitest/browser": "^3.2.4",
+    "eslint": "^8.34.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-storybook": "^9.1.6",
+    "happy-dom": "^18.0.1",
+    "npm-run-all": "^4.1.5",
+    "postcss": "^8.5.6",
+    "postcss-modules": "^6.0.1",
+    "storybook": "^9.1.6",
+    "tsup": "^8.5.0",
+    "typescript": "~5.8.3",
+    "vitest": "^3.2.4",
+    "vitest-browser-react": "^1.0.1",
+    "zenn-markdown-html": "workspace:*",
+    "zenn-embed-elements": "workspace:*",
+    "zenn-content-css": "workspace:*"
+  },
+  "peerDependencies": {
+    "@tiptap/core": "^3.6.0",
+    "@tiptap/pm": "^3.6.0",
+    "@tiptap/react": "^3.6.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:storybook/recommended"
+    ]
+  }
+}

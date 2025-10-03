@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "strict": true,
+    "target": "es2020", // node14+
+    "lib": ["esnext"],
+    "module": "nodenext",
+    "skipLibCheck": true,
+    "noEmit": true,
+
+    "moduleDetection": "force",
+    "verbatimModuleSyntax": false,
+    "resolveJsonModule": true
+  },
+  "include": ["src/server"],
+  "exclude": ["**/__tests__"]
+}
