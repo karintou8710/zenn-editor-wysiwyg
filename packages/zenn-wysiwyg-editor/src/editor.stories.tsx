@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useZennEditor } from '.';
 import EditorContent from './components/editor/editor-content';
 import { useEffect } from 'react';
+import 'zenn-content-css/lib/index.css';
 
 type EditorProps = {
   initialContent?: string;

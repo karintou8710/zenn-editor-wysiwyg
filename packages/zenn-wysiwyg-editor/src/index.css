@@ -1,5 +1,3 @@
-@import 'zenn-content-css/lib/index.css';
-
 /* .znc のクラスを上書きするため、.znc.tiptapという優先度が高いセレクタにする */
 .znc.tiptap {
   outline: none;

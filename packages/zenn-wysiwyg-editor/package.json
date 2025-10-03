@@ -67,8 +67,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.539.0",
-    "prosemirror-markdown": "^1.13.2",
-    "zenn-content-css": "^0.2.1"
+    "prosemirror-markdown": "^1.13.2"
   },
   "devDependencies": {
     "@playwright/test": "^1.52.0",
@@ -94,8 +93,9 @@
     "typescript": "~5.8.3",
     "vitest": "^3.2.4",
     "vitest-browser-react": "^1.0.1",
-    "zenn-markdown-html": "workspace:zenn-markdown-html",
-    "zenn-embed-elements": "workspace:zenn-embed-elements"
+    "zenn-markdown-html": "workspace:*",
+    "zenn-embed-elements": "workspace:*",
+    "zenn-content-css": "workspace:*"
   },
   "peerDependencies": {
     "@tiptap/core": "^3.6.0",

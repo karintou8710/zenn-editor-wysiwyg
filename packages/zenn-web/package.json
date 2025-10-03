@@ -20,7 +20,8 @@
     "zenn-markdown-html": "workspace:*",
     "zenn-model": "workspace:*",
     "zenn-wysiwyg-editor": "workspace:*",
-    "zenn-embed-elements": "workspace:*"
+    "zenn-embed-elements": "workspace:*",
+    "zenn-content-css": "workspace:*"
   },
   "devDependencies": {
     "@eslint/js": "^9.35.0",
