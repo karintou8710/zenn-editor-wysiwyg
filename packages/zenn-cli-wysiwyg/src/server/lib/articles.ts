@@ -1,0 +1,126 @@
+import matter from 'gray-matter';
+import yaml from 'js-yaml';
+import * as Log from './log';
+
+import {
+  listFilenames,
+  listFilenamesOrderByModified,
+  getFileRaw,
+  getWorkingPath,
+  completeHtml,
+} from './helper';
+import { Article, ArticleMeta } from 'zenn-model';
+import { ItemSortType } from '../../common/types';
+
+// import ... from の構文だとバンドルで .mjs として解決されるため、明示的に require を使用
+import zennMarkdownHtml = require('zenn-markdown-html');
+
+export function getLocalArticle(slug: string): null | Article {
+  const data = readArticleFile(slug);
+  if (!data) return null;
+  const { meta, bodyMarkdown } = data;
+  const rawHtml = zennMarkdownHtml.default(bodyMarkdown, {
+    embedOrigin: process.env.VITE_EMBED_SERVER_ORIGIN,
+  });
+  const bodyHtml = completeHtml(rawHtml);
+  const toc = zennMarkdownHtml.parseToc(bodyHtml);
+  return {
+    ...meta,
+    markdown: bodyMarkdown,
+    bodyHtml,
+    toc,
+  };
+}
+
+export function getLocalArticleMetaList(sort?: ItemSortType): ArticleMeta[] {
+  const slugs = getArticleSlugs(sort);
+  const articles = slugs
+    ? slugs
+        .map((slug) => getArticleMetaData(slug))
+        .filter((article): article is ArticleMeta => article !== null)
+    : [];
+  return articles;
+}
+
+function getArticleSlugs(sort?: ItemSortType): string[] {
+  return getArticleFilenames(sort).map((n) => n.replace(/\.md$/, ''));
+}
+
+function getArticleFilenames(sort?: ItemSortType): string[] {
+  const dirpath = getWorkingPath('articles');
+  const allFiles =
+    sort === 'system'
+      ? listFilenames(dirpath)
+      : listFilenamesOrderByModified(dirpath);
+  if (allFiles === null) {
+    Log.error(
+      'プロジェクトルートの articles ディレクトリを取得できませんでした。`npx zenn init`を実行して作成してください'
+    );
+    return [];
+  }
+  // filter markdown files
+  return allFiles.filter((f) => /\.md$/.test(f)); // `.md`で終わるファイルのみに絞り込む
+}
+
+function getArticleMetaData(slug: string): null | ArticleMeta {
+  const data = readArticleFile(slug);
+  return data ? data.meta : null;
+}
+
+function readArticleFile(slug: string) {
+  const fullpath = getWorkingPath(`articles/${slug}.md`);
+  const raw = getFileRaw(fullpath);
+  if (!raw) {
+    Log.error(`${fullpath}の内容を取得できませんでした`);
+    return null;
+  }
+
+  // NOTE: yamlのtimestampフィールドを自動的にDateに変換されないように、オプションを指定する
+  // https://github.com/jonschlinkert/gray-matter/issues/62#issuecomment-577628177
+  const { data, content: bodyMarkdown } = matter(raw, {
+    engines: {
+      yaml: {
+        parse: (s) => yaml.load(s, { schema: yaml.JSON_SCHEMA }) as any,
+        stringify: (s) => yaml.dump(s, { schema: yaml.JSON_SCHEMA }),
+      },
+    },
+  });
+  return {
+    meta: {
+      ...data,
+      slug,
+    } as ArticleMeta,
+    bodyMarkdown,
+  };
+}
+
+export function stringifyArticleWithMetaData(article: Article): string {
+  const articleForMeta: Partial<Article> = {}; // slugはファイル名なので除外
+
+  if (article.title) articleForMeta.title = article.title;
+  if (article.type) articleForMeta.type = article.type;
+  if (article.topics) articleForMeta.topics = article.topics;
+  if (article.emoji) articleForMeta.emoji = article.emoji;
+  if (typeof article.published === 'boolean')
+    articleForMeta.published = article.published;
+  if (article.published_at !== undefined)
+    articleForMeta.published_at = article.published_at;
+  if (article.publication_name !== undefined)
+    articleForMeta.publication_name = article.publication_name;
+
+  const contentWithMeta = matter.stringify(
+    article.markdown ?? '',
+    articleForMeta,
+    // 絵文字が処理されるバージョンの js-yaml を使う
+    {
+      engines: {
+        yaml: {
+          parse: (s) => yaml.load(s, { schema: yaml.JSON_SCHEMA }) as any,
+          stringify: (s) => yaml.dump(s, { schema: yaml.JSON_SCHEMA }),
+        },
+      },
+    }
+  );
+
+  return contentWithMeta;
+}

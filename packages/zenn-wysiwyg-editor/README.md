@@ -1,0 +1,92 @@
+# zenn-wysiwyg-editor
+
+Zenn の記事を WYSIWYG で編集可能なエディタです（非公式）
+
+## 利用方法
+
+`zenn-content-css` と `zenn-embed-elements` のインストールが必要です。
+
+```tsx
+import { useState, useEffect } from 'react';
+import { EditorContent, useZennEditor } from 'zenn-wysiwyg-editor';
+
+import 'zenn-content-css/lib/index.css';
+import 'zenn-wysiwyg-editor/dist/style.css';
+
+export const EditableBodyContent: React.FC = () => {
+  const [content, setContent] = useState('');
+
+  const editor = useZennEditor({
+    initialContent: content,
+    onChange: (html) => {
+      setContent(html);
+    },
+  });
+
+  // 数式ノードの描画のために必要
+  useEffect(() => {
+    import('zenn-embed-elements');
+  }, []);
+
+  return <EditorContent editor={editor} />;
+};
+```
+
+## 記法対応
+
+ノード
+
+- [x] 見出し
+  - [x] Table Of Contents
+- [x] リスト
+- [x] 引用
+- [x] 区切り線
+- [x] コードブロック(コード対応)
+  - [x] Prism のハイライト
+  - [x] ファイル名
+  - [x] 言語の表示
+  - [x] diff
+- [x] 画像
+  - [x] alt
+  - [x] キャプション
+  - [x] 横幅設定
+  - [x] リンク画像
+- [x] テキストリンク
+- [x] 脚注
+- [x] テーブル
+- [x] 数式 (Katex)
+
+マーク
+
+- [x] イタリック
+- [x] 太字
+- [x] 打ち消し線
+- [x] インラインコード
+
+Zenn 独自ノード
+
+- [x] メッセージ
+- [x] アコーディオン
+
+埋め込み
+
+- [x] リンクカード
+- [x] X（Twitter）のポスト
+- [x] GitHub
+- [x] GitHub Gist
+- [x] YouTube
+- [x] CodePen
+- [x] JSFiddle
+- [x] CodeSandbox
+- [x] StackBlitz
+- [x] SpeakerDeck
+- [x] Figma
+- [x] Docswell
+- [x] SlideShare
+- [x] blueprintUE
+- [x] Mermaid
+
+## 参考
+
+- https://zenn.dev/zenn/articles/markdown-guide
+- https://github.com/zenn-dev/zenn-editor

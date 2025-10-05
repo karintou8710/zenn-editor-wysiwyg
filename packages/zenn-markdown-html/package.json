@@ -3,7 +3,7 @@
   "version": "0.2.3",
   "license": "MIT",
   "description": "Convert markdown to zenn flavor html.",
-  "main": "lib/index.js",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/zenn-dev/zenn-editor.git",
@@ -13,14 +13,20 @@
     "lib"
   ],
   "exports": {
-    ".": "./lib/index.js",
-    "./lib/utils": "./lib/utils/index.js"
+    ".": {
+      "import": {
+        "types": "./lib/index.d.mts",
+        "default": "./lib/index.mjs"
+      },
+      "require": {
+        "types": "./lib/index.d.ts",
+        "default": "./lib/index.js"
+      }
+    }
   },
   "scripts": {
     "clean": "rimraf lib/*",
-    "build": "npm run clean && run-p build:*",
-    "build:src": "babel ./src --extensions '.ts,.tsx' --ignore '**/*.d.ts' --out-dir ./lib",
-    "build:types": "tsc --project ./tsconfig.build.json",
+    "build": "npm run clean && tsup",
     "lint": "run-s lint:*",
     "lint:eslint": "eslint . --ext .ts,.tsx",
     "lint:prettier": "prettier .",
@@ -38,22 +44,27 @@
     "@babel/preset-env": "^7.20.2",
     "@babel/preset-typescript": "^7.18.6",
     "@types/markdown-it": "^12.2.3",
+    "@types/markdown-it-container": "^2.0.10",
+    "@types/markdown-it-footnote": "^3.0.4",
+    "@types/markdown-it-link-attributes": "^3.0.5",
     "@types/node": "^18.13.0",
     "@types/prismjs": "^1.26.0",
     "@types/sanitize-html": "^2.8.0",
     "@typescript-eslint/eslint-plugin": "^5.52.0",
     "@typescript-eslint/parser": "^5.52.0",
-    "babel-plugin-prismjs": "^2.1.0",
+    "esbuild-plugin-prismjs": "^1.0.8",
     "eslint": "^8.34.0",
     "eslint-config-prettier": "^8.6.0",
     "node-html-parser": "^6.1.4",
     "rimraf": "^3.0.2",
-    "typescript": "^4.9.5",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3",
     "vitest": "^0.34.4"
   },
   "dependencies": {
     "@steelydylan/markdown-it-imsize": "^1.0.2",
-    "cheerio": "1.0.0-rc.12",
+    "cheerio": "1.1.2",
+    "crypto-random-string": "^5.0.0",
     "markdown-it": "^12.3.2",
     "markdown-it-anchor": "^8.6.6",
     "markdown-it-container": "^2.0.0",
@@ -61,11 +72,8 @@
     "markdown-it-inline-comments": "^1.0.1",
     "markdown-it-link-attributes": "^4.0.1",
     "markdown-it-task-lists": "^2.1.1",
-    "prismjs": "^1.29.0",
-    "sanitize-html": "^2.9.0"
+    "sanitize-html": "^2.9.0",
+    "prismjs": "^1.29.0"
   },
-  "gitHead": "7da0b06004cf615e42e475de47011c4670eb7318",
-  "publishConfig": {
-    "access": "public"
-  }
+  "gitHead": "7da0b06004cf615e42e475de47011c4670eb7318"
 }

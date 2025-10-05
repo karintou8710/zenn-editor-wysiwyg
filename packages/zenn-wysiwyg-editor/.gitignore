@@ -1,0 +1,13 @@
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+dist/
+__screenshots__/
+.claude/settings.local.json
+.selena/
+*storybook.log
+storybook-static
