@@ -5,7 +5,7 @@ import Text from '@tiptap/extension-text';
 import { describe, expect, it } from 'vitest';
 import { convertMarkdownToEditable } from '../../../../../lib/from-markdown';
 import { markdownSerializer } from '../../../../../lib/to-markdown';
-import { renderTiptapEditor } from '../../../../../tests/browser/editor';
+import { createTiptapEditor } from '../../../../../tests/node/editor';
 import { CodeBlockFileName } from '../../code-block-file-name';
 import { DiffCodeBlock } from '../../diff-code-block';
 import { DiffCodeLine } from '../../diff-code-block/diff-code-line';
@@ -27,7 +27,7 @@ const basicExtension = [
 describe('マークダウン', () => {
   describe('出力', () => {
     it('JavaScriptコードブロックをマークダウンに変換できる', () => {
-      const editor = renderTiptapEditor({
+      const editor = createTiptapEditor({
         extensions: basicExtension,
         content:
           '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code class="language-javascript">console.log("hello");</code></pre></div>',
@@ -38,7 +38,7 @@ describe('マークダウン', () => {
     });
 
     it('言語名なしのコードブロックをマークダウンに変換できる', () => {
-      const editor = renderTiptapEditor({
+      const editor = createTiptapEditor({
         extensions: basicExtension,
         content:
           '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code class="language-plaintext">plaintext code</code></pre></div>',
@@ -49,7 +49,7 @@ describe('マークダウン', () => {
     });
 
     it('複数行のコードブロックをマークダウンに変換できる', () => {
-      const editor = renderTiptapEditor({
+      const editor = createTiptapEditor({
         extensions: basicExtension,
         content:
           '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code class="language-python">def hello():\n    print("Hello, World!")\n    return True</code></pre></div>',
@@ -67,7 +67,7 @@ describe('マークダウン', () => {
       const markdown = '```javascript\nconsole.log("hello");\n```';
 
       const html = convertMarkdownToEditable(markdown);
-      const editor = renderTiptapEditor({
+      const editor = createTiptapEditor({
         extensions: basicExtension,
         content: html,
       });
@@ -82,7 +82,7 @@ describe('マークダウン', () => {
       const markdown = '```javascript:hello.js\nconsole.log("hello");\n```';
 
       const html = convertMarkdownToEditable(markdown);
-      const editor = renderTiptapEditor({
+      const editor = createTiptapEditor({
         extensions: basicExtension,
         content: html,
       });
@@ -97,7 +97,7 @@ describe('マークダウン', () => {
       const markdown = '```\nplain text code\n```';
 
       const html = convertMarkdownToEditable(markdown);
-      const editor = renderTiptapEditor({
+      const editor = createTiptapEditor({
         extensions: basicExtension,
         content: html,
       });

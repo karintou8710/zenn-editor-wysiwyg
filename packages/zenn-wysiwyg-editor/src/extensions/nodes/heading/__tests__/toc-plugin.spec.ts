@@ -2,7 +2,7 @@ import Document from '@tiptap/extension-document';
 import Paragraph from '@tiptap/extension-paragraph';
 import Text from '@tiptap/extension-text';
 import { describe, expect, it, vi } from 'vitest';
-import { renderTiptapEditor } from '../../../../tests/browser/editor';
+import { createTiptapEditor } from '../../../../tests/node/editor';
 import Heading from '..';
 
 const basicExtension = [Document, Paragraph, Text, Heading];
@@ -15,7 +15,7 @@ describe('TocPlugin', () => {
       randomUUID: () => mockId,
     });
 
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content: '<h1>Heading 1</h1><h2>Heading 2</h2><h3>Heading 3</h3>',
     });
@@ -41,7 +41,7 @@ describe('TocPlugin', () => {
       randomUUID: () => mockId,
     });
 
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content: '<h4>Heading 4</h4><h5>Heading 5</h5><h6>Heading 6</h6>',
     });

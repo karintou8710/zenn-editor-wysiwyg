@@ -2,7 +2,7 @@ import Document from '@tiptap/extension-document';
 import Paragraph from '@tiptap/extension-paragraph';
 import Text from '@tiptap/extension-text';
 import { describe, expect, it } from 'vitest';
-import { renderTiptapEditor } from '../../../../tests/browser/editor';
+import { createTiptapEditor } from '../../../../tests/node/editor';
 import { Details } from '..';
 import { DetailsContent } from '../content';
 import { DetailsSummary } from '../summary';
@@ -18,7 +18,7 @@ const basicExtension = [
 
 describe('HTMLのパース・レンダリング', () => {
   it('アコーディオンが正しいHTMLでレンダリングされる', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content:
         '<details><summary></summary><div class="details-content"><p>テキスト</p></div></details>',

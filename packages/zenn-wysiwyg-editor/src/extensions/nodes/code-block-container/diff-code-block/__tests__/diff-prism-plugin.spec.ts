@@ -3,7 +3,7 @@ import HardBreak from '@tiptap/extension-hard-break';
 import Paragraph from '@tiptap/extension-paragraph';
 import Text from '@tiptap/extension-text';
 import { describe, expect, it } from 'vitest';
-import { renderTiptapEditor } from '../../../../../tests/browser/editor';
+import { createTiptapEditor } from '../../../../../tests/node/editor';
 import { CodeBlockContainer } from '../..';
 import { CodeBlock } from '../../code-block';
 import { CodeBlockFileName } from '../../code-block-file-name';
@@ -37,7 +37,7 @@ const extractHighlightedToken = (codeBlockDom: Element) => {
 
 describe('DiffPrismPlugin - TypeScript', () => {
   it('TypeScriptで+が挿入差分のハイライトがされる', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content: `<div class="code-block-container"><div class="code-block-filename-container"></div>
         <pre><code class="language-diff-typescript diff-highlight"><span>+ console.log("hello")</span></code></pre></div>`,
@@ -80,7 +80,7 @@ describe('DiffPrismPlugin - TypeScript', () => {
   });
 
   it('空行と改行があっても差分ハイライトが認識される', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content: `<div class="code-block-container"><div class="code-block-filename-container"></div>
         <pre><code class="language-diff-typescript diff-highlight"><span>+ const a = 1;</span><span></span><span>+ const b = 1;</span></code></pre></div>`,
@@ -144,7 +144,7 @@ describe('DiffPrismPlugin - TypeScript', () => {
 
 describe('DiffPrismPlugin - JSON', () => {
   it('JSONで+が挿入差分のハイライトがされる', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content: `<div class="code-block-container"><div class="code-block-filename-container"></div>
         <pre><code class="language-diff-json diff-highlight"><span>+ {</span><span>+   "test": "value",</span><span>+   "number": 123</span><span>+ }</span></code></pre></div>`,

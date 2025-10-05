@@ -3,7 +3,7 @@ import HardBreak from '@tiptap/extension-hard-break';
 import Paragraph from '@tiptap/extension-paragraph';
 import Text from '@tiptap/extension-text';
 import { describe, expect, it } from 'vitest';
-import { renderTiptapEditor } from '../../../../../tests/browser/editor';
+import { createTiptapEditor } from '../../../../../tests/node/editor';
 import { CodeBlockContainer } from '../..';
 import { CodeBlockFileName } from '../../code-block-file-name';
 import { DiffCodeBlock } from '../../diff-code-block';
@@ -37,7 +37,7 @@ describe('PrismPlugin', () => {
   };
 
   it('typescriptでconsole.logをコードブロックで入力するとハイライトがされる', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content:
         '<div class="code-block-container"><div class="code-block-filename-container"></div><pre><code class="language-typescript">console.log("hello")</code></pre></div>',
@@ -65,7 +65,7 @@ describe('PrismPlugin', () => {
   });
 
   it('空行と改行があってもハイライトが認識される', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content:
         '<div class="code-block-container"><div class="code-block-filename-container"></div><pre><code class="language-typescript">// コメント\n\nconst a = 1;</code></pre></div>',
@@ -95,7 +95,7 @@ describe('PrismPlugin', () => {
   });
 
   it('コードを更新されてもハイライトされる', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content:
         '<div class="code-block-container"><div class="code-block-filename-container"></div><pre><code class="language-typescript">console.log("hello")</code></pre></div>',
@@ -125,7 +125,7 @@ describe('PrismPlugin', () => {
   });
 
   it('コード全体を更新されてもハイライトされる', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content:
         '<div class="code-block-container"><div class="code-block-filename-container"></div><pre><code class="language-typescript">console.log("hello")</code></pre></div>',

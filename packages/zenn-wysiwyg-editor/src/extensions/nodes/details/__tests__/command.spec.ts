@@ -4,7 +4,7 @@ import { ListKit } from '@tiptap/extension-list';
 import Paragraph from '@tiptap/extension-paragraph';
 import Text from '@tiptap/extension-text';
 import { describe, expect, it } from 'vitest';
-import { renderTiptapEditor } from '../../../../tests/browser/editor';
+import { createTiptapEditor } from '../../../../tests/node/editor';
 import { CodeBlockContainer } from '../../code-block-container';
 import { CodeBlock } from '../../code-block-container/code-block';
 import { CodeBlockFileName } from '../../code-block-container/code-block-file-name';
@@ -27,7 +27,7 @@ const basicExtension = [
 describe('コマンド', () => {
   describe('setDetails', () => {
     it('setDetailsコマンドでアコーディオンを挿入できる', () => {
-      const editor = renderTiptapEditor({
+      const editor = createTiptapEditor({
         extensions: basicExtension,
         content: '<p>テキスト</p>',
       });
@@ -41,7 +41,7 @@ describe('コマンド', () => {
     });
 
     it('setDetailsコマンドはアコーディオンタイトル内で実行できない', () => {
-      const editor = renderTiptapEditor({
+      const editor = createTiptapEditor({
         extensions: basicExtension,
         content:
           '<details><summary></summary><div class="details-content"><p>テキスト</p></div></details>',
@@ -53,7 +53,7 @@ describe('コマンド', () => {
     });
 
     it('見出しの中で呼び出せる', () => {
-      const editor = renderTiptapEditor({
+      const editor = createTiptapEditor({
         extensions: [...basicExtension, Heading],
         content: '<h1>見出しの中</h1>',
       });
@@ -65,7 +65,7 @@ describe('コマンド', () => {
     });
 
     it('引用の中で呼び出せる', () => {
-      const editor = renderTiptapEditor({
+      const editor = createTiptapEditor({
         extensions: [...basicExtension, Blockquote],
         content: '<blockquote>引用の中</blockquote>',
       });
@@ -77,7 +77,7 @@ describe('コマンド', () => {
     });
 
     it('リストで呼び出せない', () => {
-      const editor = renderTiptapEditor({
+      const editor = createTiptapEditor({
         extensions: [...basicExtension, ListKit],
         content: '<ul><li><p>リストの中</p></li></ul>',
       });
@@ -89,7 +89,7 @@ describe('コマンド', () => {
     });
 
     it('メッセージの中で呼び出せる', () => {
-      const editor = renderTiptapEditor({
+      const editor = createTiptapEditor({
         extensions: basicExtension,
         content:
           '<aside class="msg"><div class="msg-content"><p>メッセージ</p></div></aside>',
@@ -102,7 +102,7 @@ describe('コマンド', () => {
     });
 
     it('コードブロックのファイル名とコンテンツの中で呼び出せない', () => {
-      const editor = renderTiptapEditor({
+      const editor = createTiptapEditor({
         extensions: [
           ...basicExtension,
           CodeBlock,
@@ -126,7 +126,7 @@ describe('コマンド', () => {
     });
 
     it('差分コードブロックのファイル名とコンテンツの中で呼び出せない', () => {
-      const editor = renderTiptapEditor({
+      const editor = createTiptapEditor({
         extensions: [
           ...basicExtension,
           CodeBlock,
@@ -150,7 +150,7 @@ describe('コマンド', () => {
     });
 
     it('アコーディオンのサマリーで呼べない。コンテンツで呼べる', () => {
-      const editor = renderTiptapEditor({
+      const editor = createTiptapEditor({
         extensions: [
           ...basicExtension,
           Details,
@@ -174,7 +174,7 @@ describe('コマンド', () => {
 
   describe('unsetDetails', () => {
     it('unsetDetailsコマンドでアコーディオンを削除できる', () => {
-      const editor = renderTiptapEditor({
+      const editor = createTiptapEditor({
         extensions: basicExtension,
         content:
           '<details><summary></summary><div class="details-content"><p>テキスト</p></div></details>',
@@ -187,7 +187,7 @@ describe('コマンド', () => {
     });
 
     it('unsetDetailsコマンドはアコーディオン内にカーソルがある場合にのみ有効', () => {
-      const editor = renderTiptapEditor({
+      const editor = createTiptapEditor({
         extensions: basicExtension,
         content:
           '<details><summary></summary><div class="details-content"><p>テキスト</p></div></details><p>テキスト2</p>',

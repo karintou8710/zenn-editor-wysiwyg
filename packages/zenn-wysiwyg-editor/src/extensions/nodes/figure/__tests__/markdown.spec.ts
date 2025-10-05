@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest';
 import { convertMarkdownToEditable } from '../../../../lib/from-markdown';
 import { markdownSerializer } from '../../../../lib/to-markdown';
 import LakeImage from '../../../../tests/assets/sikotuko.jpeg';
-import { renderTiptapEditor } from '../../../../tests/browser/editor';
+import { createTiptapEditor } from '../../../../tests/node/editor';
 import { Caption } from '../caption';
 import { Image } from '../image';
 import Figure from '../index';
@@ -23,7 +23,7 @@ const basicExtension = [
 
 describe('マークダウン', () => {
   it('Figureノードをマークダウンに変換できる', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content: `<p><img src="${LakeImage}" alt="支笏湖"><em>支笏湖</em></p>`,
     });
@@ -34,7 +34,7 @@ describe('マークダウン', () => {
   });
 
   it('キャプションなしのFigureノードをマークダウンに変換できる', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content: `<p><img src="${LakeImage}" alt="支笏湖"></p>`,
     });
@@ -48,7 +48,7 @@ describe('マークダウン', () => {
     const markdown = `![支笏湖](${LakeImage})\n*支笏湖*`;
 
     const html = convertMarkdownToEditable(markdown);
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content: html,
     });
@@ -61,7 +61,7 @@ describe('マークダウン', () => {
     const markdown = `![支笏湖](${LakeImage})`;
 
     const html = convertMarkdownToEditable(markdown);
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content: html,
     });
@@ -71,7 +71,7 @@ describe('マークダウン', () => {
   });
 
   it('リンク付き画像をマークダウンに変換できる', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content: `<p><a href="https://example.com"><img src="${LakeImage}" alt="支笏湖"></a></p>`,
     });
@@ -85,7 +85,7 @@ describe('マークダウン', () => {
     const markdown = `[![支笏湖](${LakeImage})](https://example.com)`;
 
     const html = convertMarkdownToEditable(markdown);
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content: html,
     });

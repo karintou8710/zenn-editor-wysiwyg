@@ -3,7 +3,7 @@ import Paragraph from '@tiptap/extension-paragraph';
 import Text from '@tiptap/extension-text';
 import { describe, expect, it } from 'vitest';
 import LakeImage from '../../../../tests/assets/sikotuko.jpeg';
-import { renderTiptapEditor } from '../../../../tests/browser/editor';
+import { createTiptapEditor } from '../../../../tests/node/editor';
 import { Link } from '../../../marks/link';
 import Figure from '..';
 import { Caption } from '../caption';
@@ -21,7 +21,7 @@ const basicExtension = [
 
 describe('HTMLのパース', () => {
   it('画像タグをFigureノードとしてパースできる', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content: `<p><img src="${LakeImage}" alt="支笏湖"><em>支笏湖</em></p>`,
     });
@@ -38,7 +38,7 @@ describe('HTMLのパース', () => {
   });
 
   it('改行付き画像タグをFigureノードとしてパースできる', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content: `<p><img src="${LakeImage}" alt="支笏湖"><br/><em>支笏湖</em></p>`,
     });
@@ -55,7 +55,7 @@ describe('HTMLのパース', () => {
   });
 
   it('キャプションが空の画像タグをFigureノードとしてパースできる', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content: `<p><img src="${LakeImage}" alt="支笏湖"><br/><em></em></p>`,
     });
@@ -72,7 +72,7 @@ describe('HTMLのパース', () => {
   });
 
   it('リンク付き画像をFigureノードとしてパースできる', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content: `<p><a href="https://example.com"><img src="${LakeImage}" alt="支笏湖"></a></p>`,
     });
@@ -97,7 +97,7 @@ describe('HTMLのパース', () => {
   });
   ``;
   it('通常の画像のキャプションは表示されている', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content: `<p><img src="${LakeImage}" alt="支笏湖"><em>支笏湖</em></p>`,
     });

@@ -2,7 +2,7 @@ import Document from '@tiptap/extension-document';
 import Paragraph from '@tiptap/extension-paragraph';
 import Text from '@tiptap/extension-text';
 import { describe, expect, it } from 'vitest';
-import { renderTiptapEditor } from '../../../../tests/browser/editor';
+import { createTiptapEditor } from '../../../../tests/node/editor';
 import { BlockMath } from '../block-math';
 import { InlineMath } from '../inline-math';
 
@@ -10,7 +10,7 @@ const basicExtension = [Document, Paragraph, Text, BlockMath, InlineMath];
 
 describe('BlockMath のレンダリング', () => {
   it('blockMathが正しいHTMLでレンダリングされる', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content:
         '<section><eqn><embed-katex display-mode="1">E = mc^2</embed-katex></eqn></section>',
@@ -23,7 +23,7 @@ describe('BlockMath のレンダリング', () => {
   });
 
   it('空のlatex属性を持つblockMathが正しくレンダリングされる', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content:
         '<section><eqn><embed-katex display-mode="1"></embed-katex></eqn></section>',
@@ -36,7 +36,7 @@ describe('BlockMath のレンダリング', () => {
   });
 
   it('HTMLにレンダリング後にパースできる', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content:
         '<section><eqn><embed-katex display-mode="1">E = mc^2</embed-katex></eqn></section>',
@@ -53,7 +53,7 @@ describe('BlockMath のレンダリング', () => {
 
 describe('InlineMath のレンダリング', () => {
   it('inlineMathが正しいHTMLでレンダリングされる', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content:
         '<p>質量エネルギー等価性は<embed-katex>E = mc^2</embed-katex>で表される</p>',
@@ -66,7 +66,7 @@ describe('InlineMath のレンダリング', () => {
   });
 
   it('複数のinlineMath要素が正しくレンダリングされる', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content:
         '<p><embed-katex>x</embed-katex>と<embed-katex>y</embed-katex>の関係</p>',
@@ -79,7 +79,7 @@ describe('InlineMath のレンダリング', () => {
   });
 
   it('HTMLにレンダリング後にパースできる', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content:
         '<p>質量エネルギー等価性は<embed-katex>E = mc^2</embed-katex>で表される</p>',

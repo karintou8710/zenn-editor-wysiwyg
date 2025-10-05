@@ -4,7 +4,7 @@ import { ListKit } from '@tiptap/extension-list';
 import Paragraph from '@tiptap/extension-paragraph';
 import Text from '@tiptap/extension-text';
 import { describe, expect, it } from 'vitest';
-import { renderTiptapEditor } from '../../../../tests/browser/editor';
+import { createTiptapEditor } from '../../../../tests/node/editor';
 import { CodeBlockContainer } from '../../code-block-container';
 import { CodeBlock } from '../../code-block-container/code-block';
 import { CodeBlockFileName } from '../../code-block-container/code-block-file-name';
@@ -22,7 +22,7 @@ const baseExtensions = [Document, Paragraph, Text, Message, MessageContent];
 describe('コマンド', () => {
   describe('setMessage', () => {
     it('段落をメッセージノードに変換できる', () => {
-      const editor = renderTiptapEditor({
+      const editor = createTiptapEditor({
         extensions: baseExtensions,
         content: '<p>通常の段落</p>',
       });
@@ -38,7 +38,7 @@ describe('コマンド', () => {
     });
 
     it('段落を跨ぐ場合にメッセージノードに変換できる', () => {
-      const editor = renderTiptapEditor({
+      const editor = createTiptapEditor({
         extensions: baseExtensions,
         content: '<p>段落1</p><p>段落2</p>',
       });
@@ -55,7 +55,7 @@ describe('コマンド', () => {
     });
 
     it('見出しの中で呼び出せる', () => {
-      const editor = renderTiptapEditor({
+      const editor = createTiptapEditor({
         extensions: [...baseExtensions, Heading],
         content: '<h1>見出しの中</h1>',
       });
@@ -67,7 +67,7 @@ describe('コマンド', () => {
     });
 
     it('引用の中で呼び出せる', () => {
-      const editor = renderTiptapEditor({
+      const editor = createTiptapEditor({
         extensions: [...baseExtensions, Blockquote],
         content: '<blockquote>引用の中</blockquote>',
       });
@@ -79,7 +79,7 @@ describe('コマンド', () => {
     });
 
     it('リストで呼び出せない', () => {
-      const editor = renderTiptapEditor({
+      const editor = createTiptapEditor({
         extensions: [...baseExtensions, ListKit],
         content: '<ul><li><p>リストの中</p></li></ul>',
       });
@@ -91,7 +91,7 @@ describe('コマンド', () => {
     });
 
     it('メッセージの中で呼び出せる', () => {
-      const editor = renderTiptapEditor({
+      const editor = createTiptapEditor({
         extensions: baseExtensions,
         content:
           '<aside class="msg"><div class="msg-content"><p>メッセージ</p></div></aside>',
@@ -104,7 +104,7 @@ describe('コマンド', () => {
     });
 
     it('コードブロックのファイル名とコンテンツの中で呼び出せない', () => {
-      const editor = renderTiptapEditor({
+      const editor = createTiptapEditor({
         extensions: [
           ...baseExtensions,
           CodeBlock,
@@ -128,7 +128,7 @@ describe('コマンド', () => {
     });
 
     it('差分コードブロックのファイル名とコンテンツの中で呼び出せない', () => {
-      const editor = renderTiptapEditor({
+      const editor = createTiptapEditor({
         extensions: [
           ...baseExtensions,
           CodeBlock,
@@ -152,7 +152,7 @@ describe('コマンド', () => {
     });
 
     it('アコーディオンのサマリーで呼べない。コンテンツで呼べる', () => {
-      const editor = renderTiptapEditor({
+      const editor = createTiptapEditor({
         extensions: [
           ...baseExtensions,
           Details,
@@ -176,7 +176,7 @@ describe('コマンド', () => {
 
   describe('unsetMessage', () => {
     it('メッセージを通常の段落に戻せる', () => {
-      const editor = renderTiptapEditor({
+      const editor = createTiptapEditor({
         extensions: baseExtensions,
         content:
           '<aside class="msg alert"><div class="msg-content"><p>メッセージ</p></div></aside>',
@@ -191,7 +191,7 @@ describe('コマンド', () => {
     });
 
     it('段落では呼び出せない', () => {
-      const editor = renderTiptapEditor({
+      const editor = createTiptapEditor({
         extensions: baseExtensions,
         content: '<p>通常の段落</p>',
       });
