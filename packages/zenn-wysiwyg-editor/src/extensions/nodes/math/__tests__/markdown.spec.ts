@@ -4,7 +4,7 @@ import Text from '@tiptap/extension-text';
 import { describe, expect, it } from 'vitest';
 import { convertMarkdownToEditable } from '../../../../lib/from-markdown';
 import { markdownSerializer } from '../../../../lib/to-markdown';
-import { renderTiptapEditor } from '../../../../tests/editor';
+import { createTiptapEditor } from '../../../../tests/node/editor';
 import { BlockMath } from '../block-math';
 import { InlineMath } from '../inline-math';
 
@@ -12,7 +12,7 @@ const basicExtension = [Document, Paragraph, Text, BlockMath, InlineMath];
 
 describe('BlockMath のマークダウン', () => {
   it('blockMathノードをマークダウンに変換できる', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content:
         '<section><eqn><embed-katex display-mode="1">E = mc^2</embed-katex></eqn></section>',
@@ -24,7 +24,7 @@ describe('BlockMath のマークダウン', () => {
   });
 
   it('空のlatex属性を持つblockMathをマークダウンに変換できる', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content:
         '<section><eqn><embed-katex display-mode="1"></embed-katex></eqn></section>',
@@ -39,7 +39,7 @@ describe('BlockMath のマークダウン', () => {
     const markdown = '$$\nE = mc^2\n$$';
 
     const html = convertMarkdownToEditable(markdown);
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content: html,
     });
@@ -52,7 +52,7 @@ describe('BlockMath のマークダウン', () => {
 
 describe('InlineMath のマークダウン', () => {
   it('inlineMathノードをマークダウンに変換できる', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content:
         '<p>質量エネルギー等価性は<embed-katex>E = mc^2</embed-katex>で表される</p>',
@@ -64,7 +64,7 @@ describe('InlineMath のマークダウン', () => {
   });
 
   it('複数のinlineMathノードをマークダウンに変換できる', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content:
         '<p><embed-katex>x</embed-katex>と<embed-katex>y</embed-katex>の関係</p>',
@@ -79,7 +79,7 @@ describe('InlineMath のマークダウン', () => {
     const markdown = '質量エネルギー等価性は$E = mc^2$で表される';
 
     const html = convertMarkdownToEditable(markdown);
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content: html,
     });

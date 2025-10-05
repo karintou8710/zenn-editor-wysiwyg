@@ -4,7 +4,7 @@ import Paragraph from '@tiptap/extension-paragraph';
 import Text from '@tiptap/extension-text';
 import { userEvent } from '@vitest/browser/context';
 import { InlineMath } from '../inline-math';
-import { renderTiptapEditor } from '../../../../tests/editor';
+import { renderTiptapEditor } from '../../../../tests/browser/editor';
 import { describe, expect, it } from 'vitest';
 import { waitSelectionChange } from '../../../../tests/dom';
 

@@ -4,7 +4,7 @@ import Text from '@tiptap/extension-text';
 import { userEvent } from '@vitest/browser/context';
 import { describe, expect, it } from 'vitest';
 import { waitSelectionChange } from '../../../../tests/dom';
-import { renderTiptapEditor } from '../../../../tests/editor';
+import { renderTiptapEditor } from '../../../../tests/browser/editor';
 import { TableCell } from '../cell';
 import { TableHeader } from '../header';
 import { Table } from '../table';
