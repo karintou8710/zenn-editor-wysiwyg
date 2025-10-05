@@ -5,7 +5,7 @@ import Text from '@tiptap/extension-text';
 import { describe, expect, it } from 'vitest';
 import { convertMarkdownToEditable } from '../../../../../lib/from-markdown';
 import { markdownSerializer } from '../../../../../lib/to-markdown';
-import { renderTiptapEditor } from '../../../../../tests/editor';
+import { renderTiptapEditor } from '../../../../../tests/browser/editor';
 import { CodeBlockFileName } from '../../code-block-file-name';
 import { DiffCodeBlock } from '../../diff-code-block';
 import { DiffCodeLine } from '../../diff-code-block/diff-code-line';

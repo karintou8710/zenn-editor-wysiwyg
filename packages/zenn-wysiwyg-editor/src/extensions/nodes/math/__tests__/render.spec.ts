@@ -2,7 +2,7 @@ import Document from '@tiptap/extension-document';
 import Paragraph from '@tiptap/extension-paragraph';
 import Text from '@tiptap/extension-text';
 import { describe, expect, it } from 'vitest';
-import { renderTiptapEditor } from '../../../../tests/editor';
+import { renderTiptapEditor } from '../../../../tests/browser/editor';
 import { BlockMath } from '../block-math';
 import { InlineMath } from '../inline-math';
 

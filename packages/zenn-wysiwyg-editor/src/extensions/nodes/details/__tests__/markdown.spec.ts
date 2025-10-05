@@ -4,7 +4,7 @@ import Text from '@tiptap/extension-text';
 import { describe, expect, it } from 'vitest';
 import { convertMarkdownToEditable } from '../../../../lib/from-markdown';
 import { markdownSerializer } from '../../../../lib/to-markdown';
-import { renderTiptapEditor } from '../../../../tests/editor';
+import { renderTiptapEditor } from '../../../../tests/browser/editor';
 import { Details } from '..';
 import { DetailsContent } from '../content';
 import { DetailsSummary } from '../summary';

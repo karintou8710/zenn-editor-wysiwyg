@@ -5,7 +5,7 @@ import Paragraph from '@tiptap/extension-paragraph';
 import Text from '@tiptap/extension-text';
 import { describe, expect, it } from 'vitest';
 import LakeImage from '../../../../tests/assets/sikotuko.jpeg';
-import { renderTiptapEditor } from '../../../../tests/editor';
+import { renderTiptapEditor } from '../../../../tests/browser/editor';
 import { CodeBlockContainer } from '../../code-block-container';
 import { CodeBlock } from '../../code-block-container/code-block';
 import { CodeBlockFileName } from '../../code-block-container/code-block-file-name';

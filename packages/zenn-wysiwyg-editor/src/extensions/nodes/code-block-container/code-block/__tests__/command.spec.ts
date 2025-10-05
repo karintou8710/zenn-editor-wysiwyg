@@ -5,7 +5,7 @@ import { ListKit } from '@tiptap/extension-list';
 import Paragraph from '@tiptap/extension-paragraph';
 import Text from '@tiptap/extension-text';
 import { describe, expect, it } from 'vitest';
-import { renderTiptapEditor } from '../../../../../tests/editor';
+import { renderTiptapEditor } from '../../../../../tests/browser/editor';
 import { Details } from '../../../details';
 import { DetailsContent } from '../../../details/content';
 import { DetailsSummary } from '../../../details/summary';

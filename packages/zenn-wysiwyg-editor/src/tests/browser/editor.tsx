@@ -1,6 +1,6 @@
 import { Editor, type Extensions } from '@tiptap/react';
 import { render } from 'vitest-browser-react';
-import EditorContent from '../components/editor/editor-content';
+import EditorContent from '../../components/editor/editor-content';
 
 type RenderTiptapEditor = {
   content: string;

@@ -5,7 +5,7 @@ import Text from '@tiptap/extension-text';
 import { userEvent } from '@vitest/browser/context';
 import { describe, expect, it } from 'vitest';
 import { waitSelectionChange } from '../../../../tests/dom';
-import { renderTiptapEditor } from '../../../../tests/editor';
+import { renderTiptapEditor } from '../../../../tests/browser/editor';
 import { OrderedList } from '..';
 
 const ListItem = TiptapListItem.extend({

@@ -5,8 +5,8 @@
 
 import { it, describe, expect } from 'vitest';
 import { waitSelectionChange } from '../tests/dom';
-import { renderTiptapEditor } from '../tests/editor';
-import { paste, setClipboardContent } from '../tests/clipboard';
+import { renderTiptapEditor } from '../tests/browser/editor';
+import { paste, setClipboardContent } from '../tests/browser/clipboard';
 import { TEST_ALL_EXTENSIONS } from '../tests/test-extensions';
 import LakeImage from '../tests/assets/sikotuko.jpeg';
 

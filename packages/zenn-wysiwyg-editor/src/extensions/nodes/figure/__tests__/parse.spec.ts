@@ -3,7 +3,7 @@ import Paragraph from '@tiptap/extension-paragraph';
 import Text from '@tiptap/extension-text';
 import { describe, expect, it } from 'vitest';
 import LakeImage from '../../../../tests/assets/sikotuko.jpeg';
-import { renderTiptapEditor } from '../../../../tests/editor';
+import { renderTiptapEditor } from '../../../../tests/browser/editor';
 import { Link } from '../../../marks/link';
 import Figure from '..';
 import { Caption } from '../caption';

@@ -3,7 +3,7 @@ import HardBreak from '@tiptap/extension-hard-break';
 import Paragraph from '@tiptap/extension-paragraph';
 import Text from '@tiptap/extension-text';
 import { describe, expect, it } from 'vitest';
-import { renderTiptapEditor } from '../../../../../tests/editor';
+import { renderTiptapEditor } from '../../../../../tests/browser/editor';
 import { CodeBlockFileName } from '../../code-block-file-name';
 import { DiffCodeBlock } from '../../diff-code-block';
 import { DiffCodeLine } from '../../diff-code-block/diff-code-line';

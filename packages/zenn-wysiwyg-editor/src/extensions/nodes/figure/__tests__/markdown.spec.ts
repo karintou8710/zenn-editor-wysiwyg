@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest';
 import { convertMarkdownToEditable } from '../../../../lib/from-markdown';
 import { markdownSerializer } from '../../../../lib/to-markdown';
 import LakeImage from '../../../../tests/assets/sikotuko.jpeg';
-import { renderTiptapEditor } from '../../../../tests/editor';
+import { renderTiptapEditor } from '../../../../tests/browser/editor';
 import { Caption } from '../caption';
 import { Image } from '../image';
 import Figure from '../index';
