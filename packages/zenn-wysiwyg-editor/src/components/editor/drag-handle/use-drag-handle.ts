@@ -157,7 +157,7 @@ export function useDragHandle(editor: Editor | null) {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMoveOutside);
     };
-  });
+  }, [editor]);
 
   return {
     dragTarget,
