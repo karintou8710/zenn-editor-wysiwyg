@@ -3,7 +3,7 @@ import Paragraph from '@tiptap/extension-paragraph';
 import Text from '@tiptap/extension-text';
 import { describe, expect, it } from 'vitest';
 import LakeImage from '../../../../tests/assets/sikotuko.jpeg';
-import { renderTiptapEditor } from '../../../../tests/editor';
+import { createTiptapEditor } from '../../../../tests/node/editor';
 import Figure from '..';
 import { Caption } from '../caption';
 import { Image } from '../image';
@@ -21,7 +21,7 @@ const basicExtension = [
 
 describe('HTMLのパース・レンダリング', () => {
   it('Figureノードが正しいHTMLでレンダリングされる', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content: `<p><img src="${LakeImage}" alt="支笏湖"><em>支笏湖</em></p>`,
     });
@@ -33,7 +33,7 @@ describe('HTMLのパース・レンダリング', () => {
   });
 
   it('リンク付き画像が正しいHTMLでレンダリングされる', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content: `<p><a href="https://example.com"><img src="${LakeImage}" alt="支笏湖"></a><em></em></p>`,
     });

@@ -23,7 +23,7 @@ type RenderTiptapEditor = {
   extensions: Extensions;
 };
 
-export function renderTiptapEditor({
+export function createTiptapEditor({
   content,
   extensions,
 }: RenderTiptapEditor) {

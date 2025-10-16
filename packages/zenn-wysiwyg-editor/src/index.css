@@ -1,9 +1,7 @@
-@import 'zenn-content-css/lib/index.css';
-
 /* .znc のクラスを上書きするため、.znc.tiptapという優先度が高いセレクタにする */
 .znc.tiptap {
   outline: none;
-  min-height: 600px;
+  min-height: 200px;
 
   img.ProseMirror-separator {
     display: inline !important;

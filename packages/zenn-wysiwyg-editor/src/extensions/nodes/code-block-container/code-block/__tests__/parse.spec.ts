@@ -3,7 +3,7 @@ import HardBreak from '@tiptap/extension-hard-break';
 import Paragraph from '@tiptap/extension-paragraph';
 import Text from '@tiptap/extension-text';
 import { describe, expect, it } from 'vitest';
-import { renderTiptapEditor } from '../../../../../tests/editor';
+import { createTiptapEditor } from '../../../../../tests/node/editor';
 import { CodeBlockFileName } from '../../code-block-file-name';
 import { DiffCodeBlock } from '../../diff-code-block';
 import { DiffCodeLine } from '../../diff-code-block/diff-code-line';
@@ -24,7 +24,7 @@ const basicExtension = [
 
 describe('HTMLのパース', () => {
   it('言語名ありのpreタグをコードブロックノードとしてパースできる', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content:
         '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code class="language-javascript">console.log("hello");</code></pre></div>',
@@ -38,7 +38,7 @@ describe('HTMLのパース', () => {
   });
 
   it('言語名なしのpreタグをパースできる', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content:
         '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code>plaintext code</code></pre></div>',
@@ -51,7 +51,7 @@ describe('HTMLのパース', () => {
   });
 
   it('言語とファイル名ありのpreタグをパースできる', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content:
         '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename">example.ts</span></div><pre><code class="language-typescript">const a = 1;</code></pre></div>',
@@ -64,7 +64,7 @@ describe('HTMLのパース', () => {
   });
 
   it('サポートされていない言語はplaintextにフォールバックされる', () => {
-    const editor = renderTiptapEditor({
+    const editor = createTiptapEditor({
       extensions: basicExtension,
       content:
         '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code class="language-unknown-language">some code content</code></pre></div>',

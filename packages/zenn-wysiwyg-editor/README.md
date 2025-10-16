@@ -4,10 +4,13 @@ Zenn の記事を WYSIWYG で編集可能なエディタです（非公式）
 
 ## 利用方法
 
+`zenn-content-css` と `zenn-embed-elements` のインストールが必要です。
+
 ```tsx
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { EditorContent, useZennEditor } from 'zenn-wysiwyg-editor';
 
+import 'zenn-content-css/lib/index.css';
 import 'zenn-wysiwyg-editor/dist/style.css';
 
 export const EditableBodyContent: React.FC = () => {
@@ -19,6 +22,11 @@ export const EditableBodyContent: React.FC = () => {
       setContent(html);
     },
   });
+
+  // 数式ノードの描画のために必要
+  useEffect(() => {
+    import('zenn-embed-elements');
+  }, []);
 
   return <EditorContent editor={editor} />;
 };
@@ -46,7 +54,7 @@ export const EditableBodyContent: React.FC = () => {
 - [x] テキストリンク
 - [x] 脚注
 - [x] テーブル
-- [ ] 数式 (Katex)
+- [x] 数式 (Katex)
 
 マーク
 

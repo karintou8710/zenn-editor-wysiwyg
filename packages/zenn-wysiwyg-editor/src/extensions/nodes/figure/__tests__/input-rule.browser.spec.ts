@@ -5,7 +5,7 @@ import { userEvent } from '@vitest/browser/context';
 import { describe, expect, it } from 'vitest';
 import LakeImage from '../../../../tests/assets/sikotuko.jpeg';
 import { waitSelectionChange } from '../../../../tests/dom';
-import { renderTiptapEditor } from '../../../../tests/editor';
+import { renderTiptapEditor } from '../../../../tests/browser/editor';
 import { Details } from '../../details';
 import { DetailsContent } from '../../details/content';
 import { DetailsSummary } from '../../details/summary';

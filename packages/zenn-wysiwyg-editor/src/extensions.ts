@@ -44,6 +44,8 @@ import { ListItem } from './extensions/nodes/list-item';
 import { SlashCommand } from './extensions/functionality/slash-command';
 import { BulletList } from './extensions/nodes/bullet-list';
 import { OrderedList } from './extensions/nodes/ordered-list';
+import { BlockMath } from './extensions/nodes/math/block-math';
+import { InlineMath } from './extensions/nodes/math/inline-math';
 
 export const extensions: Extensions = [
   // === Core ===
@@ -87,6 +89,8 @@ export const extensions: Extensions = [
   TableHeader,
   TableRow,
   Loading,
+  BlockMath,
+  InlineMath,
 
   // === Marks ===
   Bold,

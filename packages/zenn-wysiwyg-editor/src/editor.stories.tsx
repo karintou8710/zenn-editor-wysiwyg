@@ -1,12 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useZennEditor } from '.';
 import EditorContent from './components/editor/editor-content';
+import { useEffect } from 'react';
+import 'zenn-content-css/lib/index.css';
 
 type EditorProps = {
   initialContent?: string;
 };
 
 function Editor({ initialContent }: EditorProps) {
+  useEffect(() => {
+    import('zenn-embed-elements');
+  }, []);
+
   const editor = useZennEditor({
     initialContent: initialContent || '',
   });
@@ -15,12 +21,9 @@ function Editor({ initialContent }: EditorProps) {
 
 const meta = {
   component: Editor,
-  parameters: {
-    layout: 'centered',
-  },
   decorators: [
     (Story) => (
-      <div style={{ width: '760px' }}>
+      <div style={{ width: '760px', margin: '5rem auto' }}>
         <Story />
       </div>
     ),
@@ -85,6 +88,37 @@ export const Table: Story = {
         </tr>
       </tbody>
     </table>
+    `,
+  },
+};
+
+export const MathBlock: Story = {
+  args: {
+    initialContent: `
+    <section>
+      <eqn>
+        <embed-katex display-mode="1">\\begin{align}
+f(x) &= x^2 + 2x + 1 \\\\
+&= (x + 1)^2
+\\end{align}</embed-katex>
+      </eqn>
+    </section>
+    <p>ブロック数式の例です。</p>
+    <section>
+      <eqn>
+        <embed-katex display-mode="1">\\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}</embed-katex>
+      </eqn>
+    </section>
+    `,
+  },
+};
+
+export const MathInline: Story = {
+  args: {
+    initialContent: `
+    <p>インライン数式の例: <embed-katex>E = mc^2</embed-katex> はアインシュタインの有名な式です。</p>
+    <p>他にも <embed-katex>\\sum_{i=1}^{n} i = \\frac{n(n+1)}{2}</embed-katex> という公式があります。</p>
+    <p>微分の例: <embed-katex>\\frac{d}{dx}(x^2) = 2x</embed-katex></p>
     `,
   },
 };

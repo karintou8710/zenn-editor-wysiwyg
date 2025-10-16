@@ -12,4 +12,9 @@ export default defineConfig({
   optimizeDeps: {
     include: ['zenn-model'],
   },
+  resolve: {
+    alias: {
+      'zenn-embed-elements': 'zenn-embed-elements/src/index.ts',
+    },
+  },
 });
