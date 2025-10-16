@@ -130,6 +130,17 @@ export function useDragHandle(editor: Editor | null) {
     };
   }, [editor, handleMouseMove, handleKeyDown]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setDragTarget(null);
+    };
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  });
+
   return {
     dragTarget,
     handleDragStart,
