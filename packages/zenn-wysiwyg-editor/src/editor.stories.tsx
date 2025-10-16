@@ -21,12 +21,9 @@ function Editor({ initialContent }: EditorProps) {
 
 const meta = {
   component: Editor,
-  parameters: {
-    layout: 'centered',
-  },
   decorators: [
     (Story) => (
-      <div style={{ width: '760px' }}>
+      <div style={{ width: '760px', margin: '5rem auto' }}>
         <Story />
       </div>
     ),
