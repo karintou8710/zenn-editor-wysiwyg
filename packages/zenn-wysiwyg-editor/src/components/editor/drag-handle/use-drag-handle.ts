@@ -134,10 +134,28 @@ export function useDragHandle(editor: Editor | null) {
     const handleResize = () => {
       setDragTarget(null);
     };
+    const handleMouseMoveOutside = (ev: MouseEvent) => {
+      if (!editor) return;
+
+      const editorDom = editor.view.dom as HTMLElement;
+      const rect = editorDom.getBoundingClientRect();
+      // DragHandle のアイコンがマウスに被っても消えないように、左側に50pxの余裕を持たせる
+      const allowedLeft = rect.left - 50;
+      const isInsideHorizontal =
+        ev.clientX >= allowedLeft && ev.clientX <= rect.right;
+      const isInsideVertical =
+        ev.clientY >= rect.top && ev.clientY <= rect.bottom;
+
+      if (isInsideHorizontal && isInsideVertical) return;
+
+      setDragTarget(null);
+    };
     window.addEventListener('resize', handleResize);
+    window.addEventListener('mousemove', handleMouseMoveOutside);
 
     return () => {
       window.removeEventListener('resize', handleResize);
+      window.removeEventListener('mousemove', handleMouseMoveOutside);
     };
   });
 
