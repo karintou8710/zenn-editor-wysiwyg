@@ -88,7 +88,10 @@ export function extractCodesandboxEmbedUrl(url: string): string | null {
       return null;
     }
 
-    const embedUrl = new URL(`/embed/${projectId}`, `${parsedUrl.protocol}//${parsedUrl.host}`);
+    const embedUrl = new URL(
+      `/embed/${projectId}`,
+      `${parsedUrl.protocol}//${parsedUrl.host}`
+    );
     embedUrl.search = parsedUrl.search;
     embedUrl.hash = parsedUrl.hash;
     return embedUrl.toString();

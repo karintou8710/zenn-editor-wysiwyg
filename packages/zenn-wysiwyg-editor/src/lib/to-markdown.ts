@@ -194,7 +194,9 @@ const markdownSerializer = new MarkdownSerializer(
         case 'speakerdeck': {
           const params = extractSpeakerDeckEmbedParams(embedUrl);
           if (!params?.embedId) throw new Error('Invalid SpeakerDeck URL');
-          const slideQuery = params.slideIndex ? `?slide=${params.slideIndex}` : '';
+          const slideQuery = params.slideIndex
+            ? `?slide=${params.slideIndex}`
+            : '';
           markdown = `@[speakerdeck](${params.embedId}${slideQuery})`;
           break;
         }
