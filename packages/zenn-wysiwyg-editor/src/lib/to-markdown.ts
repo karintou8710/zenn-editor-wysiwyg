@@ -3,6 +3,7 @@ import { MarkdownSerializer } from 'prosemirror-markdown';
 import { getDiffCode } from '../extensions/nodes/code-block-container/utils';
 import type { EmbedType } from '../types';
 import {
+  extractSpeakerDeckEmbedParams,
   extractSlideshareEmbedParams,
   extractYoutubeVideoParameters,
 } from './url';
@@ -132,35 +133,81 @@ const markdownSerializer = new MarkdownSerializer(
     },
     embed(state, node) {
       const type = node.attrs.type as EmbedType;
-      let urlBlock = '';
-      if (type === 'card' || type === 'tweet' || type === 'github') {
-        urlBlock = node.attrs.url;
-      } else if (type === 'youtube') {
-        // 埋め込みURLから通常の動画URLに変換
-        const params = extractYoutubeVideoParameters(node.attrs.url);
-        const videoId = params?.videoId;
-        if (!videoId) new Error('Invalid YouTube URL');
+      const embedUrl = node.attrs.url;
+      if (typeof embedUrl !== 'string') {
+        throw new Error('Invalid embed URL');
+      }
+      let markdown = '';
 
-        urlBlock = `https://www.youtube.com/watch?v=${videoId}`;
-      } else if (type === 'figma') {
-        const query = new URL(node.attrs.url).searchParams;
-        const url = query.get('url');
-        if (!url) throw new Error('Invalid Figma URL');
+      switch (type) {
+        case 'card':
+        case 'tweet':
+        case 'github':
+          markdown = embedUrl;
+          break;
+        case 'gist':
+          markdown = `@[gist](${embedUrl})`;
+          break;
+        case 'youtube': {
+          // 埋め込みURLから通常の動画URLに変換
+          const params = extractYoutubeVideoParameters(embedUrl);
+          const videoId = params?.videoId;
+          if (!videoId) throw new Error('Invalid YouTube URL');
 
-        urlBlock = `@[figma](${url})`;
-      } else if (type === 'codepen') {
-        const url = node.attrs.url.replace('/embed/', '/pen/');
+          markdown = `https://www.youtube.com/watch?v=${videoId}`;
+          break;
+        }
+        case 'figma': {
+          const query = new URL(embedUrl).searchParams;
+          const url = query.get('url');
+          if (!url) throw new Error('Invalid Figma URL');
 
-        urlBlock = `@[codepen](${url})`;
-      } else if (type === 'slideshare') {
-        const params = extractSlideshareEmbedParams(node.attrs.url);
-
-        urlBlock = `@[slideshare](${params?.embedId})`;
-      } else {
-        urlBlock = `\`\`\`mermaid\n${node.attrs.url}\n\`\`\``;
+          markdown = `@[figma](${url})`;
+          break;
+        }
+        case 'codepen': {
+          const url = embedUrl.replace('/embed/', '/pen/');
+          markdown = `@[codepen](${url})`;
+          break;
+        }
+        case 'codesandbox':
+          markdown = `@[codesandbox](${embedUrl})`;
+          break;
+        case 'stackblitz':
+          markdown = `@[stackblitz](${embedUrl})`;
+          break;
+        case 'jsfiddle':
+          markdown = `@[jsfiddle](${embedUrl})`;
+          break;
+        case 'docswell':
+          markdown = `@[docswell](${embedUrl})`;
+          break;
+        case 'slideshare': {
+          const params = extractSlideshareEmbedParams(embedUrl);
+          if (!params?.embedId) throw new Error('Invalid Slideshare URL');
+          markdown = `@[slideshare](${params.embedId})`;
+          break;
+        }
+        case 'blueprintue':
+          markdown = `@[blueprintue](${embedUrl})`;
+          break;
+        case 'speakerdeck': {
+          const params = extractSpeakerDeckEmbedParams(embedUrl);
+          if (!params?.embedId) throw new Error('Invalid SpeakerDeck URL');
+          const slideQuery = params.slideIndex
+            ? `?slide=${params.slideIndex}`
+            : '';
+          markdown = `@[speakerdeck](${params.embedId}${slideQuery})`;
+          break;
+        }
+        case 'mermaid':
+          markdown = `\`\`\`mermaid\n${embedUrl}\n\`\`\``;
+          break;
+        default:
+          throw new Error('Unsupported embed type');
       }
 
-      state.write(urlBlock);
+      state.write(markdown);
       state.closeBlock(node);
     },
     details(state, node) {

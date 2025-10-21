@@ -4,7 +4,11 @@ import type { EditorView } from '@tiptap/pm/view';
 import { Extension } from '@tiptap/react';
 import { EMBED_BACKEND_ORIGIN } from '../../../lib/constants';
 import { getEmbedTypeFromUrl, sanitizeEmbedToken } from '../../../lib/embed';
-import { extractSpeakerDeckEmbedParams, isFigmaUrl } from '../../../lib/url';
+import {
+  extractCodesandboxEmbedUrl,
+  extractSpeakerDeckEmbedParams,
+  isFigmaUrl,
+} from '../../../lib/url';
 import type { SpeakerDeckEmbedResponse } from '../../../types';
 
 export const EmbedPasteHandler = Extension.create({
@@ -56,6 +60,13 @@ function pasteHandlerPlugin(): Plugin {
         let node: Node;
         if (type === 'speakerdeck') {
           node = createSpeakerDeckNode(view, textContent);
+        } else if (type === 'codesandbox') {
+          const embedUrl =
+            extractCodesandboxEmbedUrl(textContent) ?? textContent;
+          node = state.schema.nodes.embed.create({
+            url: embedUrl,
+            type,
+          });
         } else if (isFigmaUrl(textContent)) {
           // URLを変えるため場合分けして処理
           node = state.schema.nodes.embed.create({
