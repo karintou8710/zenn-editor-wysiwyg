@@ -63,6 +63,40 @@ export function isCodesandboxUrl(url: string): boolean {
   );
 }
 
+/**
+ * CodeSandboxのURLを埋め込み用URLに正規化する
+ * - 既に埋め込み用URLの場合はそのまま返す
+ * - プロジェクトURL（例: https://codesandbox.io/p/sandbox/foo-bar-123abc）を埋め込み用URLに変換する
+ */
+export function extractCodesandboxEmbedUrl(url: string): string | null {
+  try {
+    const parsedUrl = new URL(url);
+    if (parsedUrl.hostname !== 'codesandbox.io') return null;
+
+    if (parsedUrl.pathname.startsWith('/embed/')) {
+      return parsedUrl.toString();
+    }
+
+    const projectMatch = /^\/p\/sandbox\/([^/?#]+)/.exec(parsedUrl.pathname);
+    if (!projectMatch) {
+      return null;
+    }
+
+    const projectSlug = projectMatch[1];
+    const projectId = projectSlug.split('-').pop();
+    if (!projectId) {
+      return null;
+    }
+
+    const embedUrl = new URL(`/embed/${projectId}`, `${parsedUrl.protocol}//${parsedUrl.host}`);
+    embedUrl.search = parsedUrl.search;
+    embedUrl.hash = parsedUrl.hash;
+    return embedUrl.toString();
+  } catch {
+    return null;
+  }
+}
+
 export function isCodepenUrl(url: string): boolean {
   return /^https:\/\/codepen\.io\/[a-zA-Z0-9\-_/@]+\/pen\/[a-zA-Z0-9\-_/.@?&=%,]+$/.test(
     url

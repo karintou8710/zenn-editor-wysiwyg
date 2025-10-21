@@ -12,6 +12,7 @@ import {
   isTweetUrl,
   isValidHttpUrl,
   isYoutubeUrl,
+  extractCodesandboxEmbedUrl,
 } from '../lib/url';
 import type { EmbedType } from '../types';
 
@@ -70,7 +71,7 @@ export function getEmbedTypeFromUrl(url: string): EmbedType | null {
     return 'codepen';
   } else if (isJsfiddleUrl(url)) {
     return 'jsfiddle';
-  } else if (isCodesandboxUrl(url)) {
+  } else if (isCodesandboxUrl(url) || extractCodesandboxEmbedUrl(url)) {
     return 'codesandbox';
   } else if (isStackblitzUrl(url)) {
     return 'stackblitz';
