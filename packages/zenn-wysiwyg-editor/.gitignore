@@ -11,3 +11,4 @@ __screenshots__/
 .selena/
 *storybook.log
 storybook-static
+.env
