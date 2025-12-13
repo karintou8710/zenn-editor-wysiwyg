@@ -71,19 +71,23 @@ export default forwardRef<any, SuggestionProps>((props, ref) => {
   return (
     <div className={styles.container}>
       {items.length ? (
-        items.map((item, index) => (
-          <button
-            ref={(el) => (itemRefs.current[index] = el)}
-            className={cn(
-              styles.item,
-              index === selectedIndex && styles.selected
-            )}
-            key={index}
-            onClick={() => selectItem(index)}
-          >
-            {item.label}
-          </button>
-        ))
+        items.map((item, index) => {
+          const Icon = item.icon;
+          return (
+            <button
+              ref={(el) => (itemRefs.current[index] = el)}
+              className={cn(
+                styles.item,
+                index === selectedIndex && styles.selected
+              )}
+              key={index}
+              onClick={() => selectItem(index)}
+            >
+              <Icon size={16} className={styles.icon} />
+              <span>{item.label}</span>
+            </button>
+          );
+        })
       ) : (
         <div className={styles.noResult}>No result</div>
       )}
