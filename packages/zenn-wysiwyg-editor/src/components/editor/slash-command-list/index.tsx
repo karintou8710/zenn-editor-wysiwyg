@@ -1,20 +1,15 @@
 import type { SuggestionProps } from '@tiptap/suggestion';
-import {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import { cn } from '../../../lib/utils';
 import styles from './index.module.css';
 import type { SuggestionItem } from 'src/extensions/functionality/slash-command/items';
+import { useSelectedIndex } from './useSelectedIndex';
 
 export default forwardRef<any, SuggestionProps>((props, ref) => {
   const items = props.items as SuggestionItem[];
-  const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const itemRefs = useRef<(HTMLLIElement | null)[]>([]);
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useSelectedIndex(props.editor);
   const selectItem = (index: number) => {
     const item = items[index];
 
@@ -34,8 +29,6 @@ export default forwardRef<any, SuggestionProps>((props, ref) => {
   const enterHandler = () => {
     selectItem(selectedIndex);
   };
-
-  useEffect(() => setSelectedIndex(0), [props.items]);
 
   useEffect(() => {
     const selectedElement = itemRefs.current[selectedIndex];
@@ -69,28 +62,33 @@ export default forwardRef<any, SuggestionProps>((props, ref) => {
   }));
 
   return (
-    <div className={styles.container}>
-      {items.length ? (
-        items.map((item, index) => {
-          const Icon = item.icon;
-          return (
-            <button
-              ref={(el) => (itemRefs.current[index] = el)}
-              className={cn(
-                styles.item,
-                index === selectedIndex && styles.selected
-              )}
-              key={index}
-              onClick={() => selectItem(index)}
-            >
-              <Icon size={16} className={styles.icon} />
-              <span>{item.label}</span>
-            </button>
-          );
-        })
-      ) : (
-        <div className={styles.noResult}>No result</div>
-      )}
+    <div className={styles.container} role="listbox">
+      <ul>
+        {items.length ? (
+          items.map((item, index) => {
+            const Icon = item.icon;
+            const isSelected = index === selectedIndex;
+            return (
+              <li
+                key={index}
+                id={`slash-command-item-${index}`}
+                ref={(el) => (itemRefs.current[index] = el)}
+                className={cn(styles.item, isSelected && styles.selected)}
+                role="option"
+                aria-selected={false} // スラッシュコマンドでは現在の擬似選択位置を持つが、内部的な要素の選択状態ではない
+                onClick={() => selectItem(index)}
+              >
+                <Icon size={16} className={styles.icon} aria-hidden="true" />
+                <span>{item.label}</span>
+              </li>
+            );
+          })
+        ) : (
+          <li className={styles.noResult} role="status">
+            No result
+          </li>
+        )}
+      </ul>
     </div>
   );
 });
