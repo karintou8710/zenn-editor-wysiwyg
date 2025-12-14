@@ -177,11 +177,11 @@ export const Message: Story = {
   args: {
     initialContent: `
     <p>通常のメッセージ:</p>
-    <aside class="msg"><span class="msg-symbol">!</span><div class="msg-content"><p>これは通常のメッセージボックスです。</p></div></aside>
+    <aside class="msg"><div class="msg-content"><p>これは通常のメッセージボックスです。</p></div></aside>
     <p>アラートメッセージ:</p>
-    <aside class="msg alert"><span class="msg-symbol">!</span><div class="msg-content"><p>これは警告メッセージです。重要な情報を伝える時に使用します。</p></div></aside>
+    <aside class="msg alert"><div class="msg-content"><p>これは警告メッセージです。重要な情報を伝える時に使用します。</p></div></aside>
     <p>複数段落のメッセージ:</p>
-    <aside class="msg"><span class="msg-symbol">!</span><div class="msg-content"><p>最初の段落です。</p><p>2番目の段落です。</p><p>3番目の段落です。</p></div></aside>
+    <aside class="msg"><div class="msg-content"><p>最初の段落です。</p><p>2番目の段落です。</p><p>3番目の段落です。</p></div></aside>
     `,
   },
 };
