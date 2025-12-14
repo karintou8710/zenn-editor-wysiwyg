@@ -78,9 +78,7 @@ const useHotReloadConnection = () => {
       socketRef.current = null;
       if (!shouldReconnectRef.current) return;
 
-      if (shouldReconnectRef.current) {
-        reconnectTimerRef.current = window.setTimeout(connect, 1000);
-      }
+      reconnectTimerRef.current = window.setTimeout(connect, 1000);
     };
 
     websocket.addEventListener('message', handleMessage);
