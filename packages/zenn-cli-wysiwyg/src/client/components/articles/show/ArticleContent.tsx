@@ -22,7 +22,7 @@ export const ArticleContent: React.FC<ArticleContentProps> = ({
   localArticleChangedAt,
 }) => {
   const [isEditable, setIsEditable] = useState(false);
-  const ws = useWebSocket();
+  const { sendJson } = useWebSocket();
 
   const handleContentChange = useCallback(
     (markdown: string) => {
@@ -33,19 +33,21 @@ export const ArticleContent: React.FC<ArticleContentProps> = ({
           data: { article: { ...article, markdown } },
         };
 
-        if (ws?.readyState !== WebSocket.OPEN) {
+        const result = sendJson(req);
+        if (!result.ok) {
           showToast(
             '記事の保存に失敗しました。ページをリロードしてください。',
             'error'
           );
-          console.error('WebSocket is not open. readyState=' + ws?.readyState);
+          console.error(
+            'WebSocket send failed.',
+            `reason=${result.reason}`
+          );
           return;
         }
-
-        ws?.send(JSON.stringify(req));
       }
     },
-    [article]
+    [article, sendJson]
   );
 
   const handleImageUpload = useCallback(
