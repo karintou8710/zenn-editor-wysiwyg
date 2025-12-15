@@ -39,10 +39,7 @@ export const ArticleContent: React.FC<ArticleContentProps> = ({
             '記事の保存に失敗しました。ページをリロードしてください。',
             'error'
           );
-          console.error(
-            'WebSocket send failed.',
-            `reason=${result.reason}`
-          );
+          console.error('WebSocket send failed.', `reason=${result.reason}`);
           return;
         }
       }
