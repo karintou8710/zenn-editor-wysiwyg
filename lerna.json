@@ -3,6 +3,6 @@
     "packages/zenn-cli-wysiwyg",
     "packages/zenn-wysiwyg-editor"
   ],
-  "version": "0.0.20",
+  "version": "0.0.21",
   "npmClient": "pnpm"
 }
