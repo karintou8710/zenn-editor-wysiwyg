@@ -48,6 +48,157 @@ export const Blockquote: Story = {
   },
 };
 
+export const UnorderedList: Story = {
+  args: {
+    initialContent: `
+    <ul>
+      <li><p>リスト項目1</p></li>
+      <li><p>リスト項目2</p></li>
+      <li><p>リスト項目3</p></li>
+    </ul>
+    <p>ネストされたリスト:</p>
+    <ul>
+      <li><p>親項目1</p>
+        <ul>
+          <li><p>子項目1-1</p></li>
+          <li><p>子項目1-2</p></li>
+        </ul>
+      </li>
+      <li><p>親項目2</p>
+        <ul>
+          <li><p>子項目2-1</p></li>
+          <li><p>子項目2-2</p></li>
+        </ul>
+      </li>
+    </ul>
+    `,
+  },
+};
+
+export const OrderedList: Story = {
+  args: {
+    initialContent: `
+    <ol>
+      <li><p>最初の項目</p></li>
+      <li><p>2番目の項目</p></li>
+      <li><p>3番目の項目</p></li>
+    </ol>
+    <p>ネストされた順序付きリスト:</p>
+    <ol>
+      <li><p>親項目1</p>
+        <ol>
+          <li><p>子項目1-1</p></li>
+          <li><p>子項目1-2</p></li>
+        </ol>
+      </li>
+      <li><p>親項目2</p>
+        <ol>
+          <li><p>子項目2-1</p></li>
+          <li><p>子項目2-2</p></li>
+        </ol>
+      </li>
+    </ol>
+    `,
+  },
+};
+
+export const HorizontalRule: Story = {
+  args: {
+    initialContent: `
+    <p>区切り線の前のテキスト</p>
+    <hr>
+    <p>区切り線の後のテキスト</p>
+    <hr>
+    <p>複数の区切り線を使って、コンテンツをセクションに分けることができます。</p>
+    <hr>
+    <p>最後のセクション</p>
+    `,
+  },
+};
+
+export const Image: Story = {
+  args: {
+    initialContent: `
+    <p>基本的な画像:</p>
+    <p><img src="https://placehold.co/600x400" alt="画像の説明"></p>
+    <p>キャプション付き画像:</p>
+    <p><img src="https://placehold.co/600x400" alt="画像の説明"><em>これは画像のキャプションです</em></p>
+    <p>横幅設定された画像(300px):</p>
+    <p><img src="https://placehold.co/600x400" alt="小さい画像" width="300"></p>
+    <p>リンク付き画像:</p>
+    <p><a href="https://zenn.dev" target="_blank" rel="nofollow noopener"><img src="https://placehold.co/600x400" alt="リンク画像"></a></p>
+    `,
+  },
+};
+
+export const Link: Story = {
+  args: {
+    initialContent: `
+    <p>通常のテキストリンク: <a href="https://zenn.dev" target="_blank" rel="nofollow noopener">Zennのホームページ</a></p>
+    <p>文章の中にリンクを含める例: この<a href="https://github.com" target="_blank" rel="nofollow noopener">GitHub</a>は開発者向けのプラットフォームです。</p>
+    <p>複数のリンク: <a href="https://zenn.dev" target="_blank" rel="nofollow noopener">Zenn</a>と<a href="https://github.com" target="_blank" rel="nofollow noopener">GitHub</a>と<a href="https://twitter.com" target="_blank" rel="nofollow noopener">Twitter</a></p>
+    `,
+  },
+};
+
+export const Footnote: Story = {
+  args: {
+    initialContent: `
+    <p>脚注の例<sup class="footnote-ref"><a href="#fn-1" id="fnref-1">[1]</a></sup>です。</p>
+    <p>複数の脚注を使うこともできます<sup class="footnote-ref"><a href="#fn-2" id="fnref-2">[2]</a></sup>。</p>
+    <p>同じ段落に複数の脚注<sup class="footnote-ref"><a href="#fn-3" id="fnref-3">[3]</a></sup>を配置することも可能です<sup class="footnote-ref"><a href="#fn-4" id="fnref-4">[4]</a></sup>。</p>
+    <section class="footnotes">
+      <ol>
+        <li id="fn-1" class="footnote-item" data-footnote-reference-id="fnref-1"><p>これは最初の脚注の内容です。</p></li>
+        <li id="fn-2" class="footnote-item" data-footnote-reference-id="fnref-2"><p>2番目の脚注では詳細な説明を追加できます。</p></li>
+        <li id="fn-3" class="footnote-item" data-footnote-reference-id="fnref-3"><p>3番目の脚注です。</p></li>
+        <li id="fn-4" class="footnote-item" data-footnote-reference-id="fnref-4"><p>4番目の脚注で、より多くの情報を提供します。</p></li>
+      </ol>
+    </section>
+    `,
+  },
+};
+
+export const TextFormatting: Story = {
+  args: {
+    initialContent: `
+    <p><em>イタリック体のテキスト</em>です。</p>
+    <p><strong>太字のテキスト</strong>です。</p>
+    <p><s>打ち消し線のテキスト</s>です。</p>
+    <p><code>インラインコード</code>です。</p>
+    <p>これらは<strong>組み合わせて<em>使用</em>することも</strong>できます。</p>
+    <p><strong><em>太字とイタリックを同時に</em></strong>適用できます。</p>
+    <p>文章の中で<code>const value = 123;</code>のようにコードを挿入したり、<strong>重要な部分を強調</strong>したり、<s>間違った情報を訂正</s>したりできます。</p>
+    `,
+  },
+};
+
+export const Message: Story = {
+  args: {
+    initialContent: `
+    <p>通常のメッセージ:</p>
+    <aside class="msg"><div class="msg-content"><p>これは通常のメッセージボックスです。</p></div></aside>
+    <p>アラートメッセージ:</p>
+    <aside class="msg alert"><div class="msg-content"><p>これは警告メッセージです。重要な情報を伝える時に使用します。</p></div></aside>
+    <p>複数段落のメッセージ:</p>
+    <aside class="msg"><div class="msg-content"><p>最初の段落です。</p><p>2番目の段落です。</p><p>3番目の段落です。</p></div></aside>
+    `,
+  },
+};
+
+export const Details: Story = {
+  args: {
+    initialContent: `
+    <p>基本的なアコーディオン:</p>
+    <details><summary>詳細を表示</summary><div class="details-content"><p>ここに詳細な内容が入ります。</p></div></details>
+    <p>複数段落のアコーディオン:</p>
+    <details><summary>複数の段落</summary><div class="details-content"><p>最初の段落です。</p><p>2番目の段落です。</p><p>3番目の段落です。</p></div></details>
+    <p>ネストされたアコーディオン:</p>
+    <details><summary>外側のアコーディオン</summary><div class="details-content"><p>外側の内容</p><details><summary>内側のアコーディオン</summary><div class="details-content"><p>内側の内容</p></div></details></div></details>
+    `,
+  },
+};
+
 export const CodeBlock: Story = {
   args: {
     initialContent: `

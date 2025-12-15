@@ -31,7 +31,8 @@
     "test:browser": "vitest run --config=vitest.browser.config.ts",
     "test-debug": "vitest --config=vitest.browser.config.ts --project=chromium --browser.headless=false",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "chromatic": "chromatic"
   },
   "exports": {
     ".": {
@@ -81,6 +82,7 @@
     "@typescript-eslint/parser": "^5.52.0",
     "@vitejs/plugin-react": "^5.0.0",
     "@vitest/browser": "^3.2.4",
+    "chromatic": "^13.3.4",
     "eslint": "^8.34.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-react": "^7.37.5",

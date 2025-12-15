@@ -160,6 +160,10 @@
       position: relative;
     }
   }
+
+  s {
+    text-decoration: line-through;
+  }
 }
 
 /* Selection */

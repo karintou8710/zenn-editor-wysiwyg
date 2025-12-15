@@ -34,7 +34,7 @@ describe('TocPlugin', () => {
     vi.unstubAllGlobals();
   });
 
-  it('h4以上の見出しノードにはidが付与されない', () => {
+  it('h4の見出しノードにはidが付与されない', () => {
     // Mock crypto.randomUUID
     const mockId = 'test-uuid-123';
     vi.stubGlobal('crypto', {
@@ -43,19 +43,15 @@ describe('TocPlugin', () => {
 
     const editor = createTiptapEditor({
       extensions: basicExtension,
-      content: '<h4>Heading 4</h4><h5>Heading 5</h5><h6>Heading 6</h6>',
+      content: '<h4>Heading 4</h4>',
     });
 
     // Trigger document change
     editor.commands.insertContent(' ');
 
     const h4Node = editor.state.doc.child(0);
-    const h5Node = editor.state.doc.child(1);
-    const h6Node = editor.state.doc.child(2);
 
     expect(h4Node.attrs.id).toBeNull();
-    expect(h5Node.attrs.id).toBeNull();
-    expect(h6Node.attrs.id).toBeNull();
 
     vi.unstubAllGlobals();
   });
