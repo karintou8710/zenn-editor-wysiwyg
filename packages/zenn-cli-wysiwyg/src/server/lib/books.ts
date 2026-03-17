@@ -101,8 +101,31 @@ export function getLocalChapter(
   const bodyHtml = completeHtml(rawHtml);
   return {
     ...meta,
+    markdown: bodyMarkdown,
     bodyHtml,
   };
+}
+
+export function stringifyChapterWithMetaData(chapter: Chapter): string {
+  const chapterForMeta: Partial<Chapter> = {};
+
+  if (chapter.title) chapterForMeta.title = chapter.title;
+  if (typeof chapter.free === 'boolean') chapterForMeta.free = chapter.free;
+
+  const contentWithMeta = matter.stringify(
+    chapter.markdown ?? '',
+    chapterForMeta,
+    {
+      engines: {
+        yaml: {
+          parse: (s) => yaml.load(s, { schema: yaml.JSON_SCHEMA }) as any,
+          stringify: (s) => yaml.dump(s, { schema: yaml.JSON_SCHEMA }),
+        },
+      },
+    }
+  );
+
+  return contentWithMeta;
 }
 
 function getLocalChapterMeta(
