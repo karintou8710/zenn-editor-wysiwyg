@@ -59,32 +59,41 @@ const useHotReloadConnection = () => {
     setReloadedAt(Date.now());
   }, []);
 
-  const handleMessage = useCallback((ev: MessageEvent) => {
-    let res: WS_ServerMessage;
-    try {
-      res = JSON.parse(ev.data) as WS_ServerMessage;
-    } catch (error) {
-      console.error('Failed to parse websocket message', error);
-      return;
-    }
+  const handleMessage = useCallback(
+    (ev: MessageEvent) => {
+      let res: WS_ServerMessage;
+      try {
+        res = JSON.parse(ev.data) as WS_ServerMessage;
+      } catch (error) {
+        console.error('Failed to parse websocket message', error);
+        return;
+      }
 
-    if (res.type === 'localArticleFileChanged' || res.type === 'articleSaved') {
-      bumpReloadedAt();
-      setArticleEvent({
-        type: res.type,
-        article: res.data.article,
-      });
-    }
+      if (
+        res.type === 'localArticleFileChanged' ||
+        res.type === 'articleSaved'
+      ) {
+        bumpReloadedAt();
+        setArticleEvent({
+          type: res.type,
+          article: res.data.article,
+        });
+      }
 
-    if (res.type === 'localChapterFileChanged' || res.type === 'chapterSaved') {
-      bumpReloadedAt();
-      setChapterEvent({
-        type: res.type,
-        bookSlug: res.data.bookSlug,
-        chapter: res.data.chapter,
-      });
-    }
-  }, [bumpReloadedAt]);
+      if (
+        res.type === 'localChapterFileChanged' ||
+        res.type === 'chapterSaved'
+      ) {
+        bumpReloadedAt();
+        setChapterEvent({
+          type: res.type,
+          bookSlug: res.data.bookSlug,
+          chapter: res.data.chapter,
+        });
+      }
+    },
+    [bumpReloadedAt]
+  );
 
   const teardownSocket = useCallback(() => {
     socketRef.current?.close();

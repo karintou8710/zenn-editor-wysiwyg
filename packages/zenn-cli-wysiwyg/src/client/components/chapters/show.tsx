@@ -45,8 +45,7 @@ export const ChapterShow: React.FC<ChapterShowProps> = ({
 
   const chapter = chapterData?.chapter;
 
-  const [localChapterChangedAt, setLocalChapterChangedAt] =
-    useState<number>(0);
+  const [localChapterChangedAt, setLocalChapterChangedAt] = useState<number>(0);
 
   useTitle(`${chapter?.title || chapterFilename}のプレビュー`);
 

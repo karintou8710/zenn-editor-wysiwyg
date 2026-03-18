@@ -70,7 +70,9 @@ export async function startLocalChangesWatcher(
   const watchPaths = await glob(watchPathGlob);
   const watcher = chokidar.watch(watchPaths);
 
-  const broadcast = (payload: WS_LocalArticleChangedMessage | WS_LocalChapterChangedMessage) => {
+  const broadcast = (
+    payload: WS_LocalArticleChangedMessage | WS_LocalChapterChangedMessage
+  ) => {
     wss.clients.forEach((client) => client.send(JSON.stringify(payload)));
   };
 
@@ -82,9 +84,7 @@ export async function startLocalChangesWatcher(
 
   watcher.on('change', (changedPath) => {
     if (changedPath.includes('/articles/')) {
-      const slug = changedPath
-        .split('/articles/')[1]
-        .replace(/\.mdx?$/, '');
+      const slug = changedPath.split('/articles/')[1].replace(/\.mdx?$/, '');
       const article = getLocalArticle(slug);
       if (!article) {
         console.error(`記事の取得に失敗しました: ${slug}`);
