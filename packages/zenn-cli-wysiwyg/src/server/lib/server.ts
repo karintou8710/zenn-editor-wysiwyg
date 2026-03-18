@@ -20,7 +20,6 @@ import {
   WS_LocalArticleChangedMessage,
   WS_LocalChapterChangedMessage,
 } from 'common/types';
-import { glob } from 'glob';
 
 type ServerOptions = {
   app: Express;
@@ -64,11 +63,11 @@ export async function startServer(options: ServerOptions): Promise<HttpServer> {
 
 export async function startLocalChangesWatcher(
   server: HttpServer,
-  watchPathGlob: string
+  watchPaths: string[]
 ) {
   const wss = new WebSocketServer({ server });
-  const watchPaths = await glob(watchPathGlob);
   const watcher = chokidar.watch(watchPaths);
+  const pendingSelfWritePaths = new Set<string>();
 
   const broadcast = (
     payload: WS_LocalArticleChangedMessage | WS_LocalChapterChangedMessage
@@ -76,13 +75,26 @@ export async function startLocalChangesWatcher(
     wss.clients.forEach((client) => client.send(JSON.stringify(payload)));
   };
 
+  const normalizePath = (targetPath: string) => path.resolve(targetPath);
+
   const writeWithWatcherPaused = (outputFile: string, content: string) => {
-    watcher.unwatch(watchPaths);
-    fs.writeFileSync(outputFile, content, 'utf-8');
-    watcher.add(watchPaths);
+    const normalizedOutputPath = normalizePath(outputFile);
+    pendingSelfWritePaths.add(normalizedOutputPath);
+
+    try {
+      fs.writeFileSync(outputFile, content, 'utf-8');
+    } catch (error) {
+      pendingSelfWritePaths.delete(normalizedOutputPath);
+      throw error;
+    }
   };
 
-  watcher.on('change', (changedPath) => {
+  const handleWatchedFileChange = (changedPath: string) => {
+    const normalizedChangedPath = normalizePath(changedPath);
+    if (pendingSelfWritePaths.delete(normalizedChangedPath)) {
+      return;
+    }
+
     if (changedPath.includes('/articles/')) {
       const slug = changedPath.split('/articles/')[1].replace(/\.mdx?$/, '');
       const article = getLocalArticle(slug);
@@ -123,7 +135,9 @@ export async function startLocalChangesWatcher(
 
       broadcast(req);
     }
-  });
+  };
+
+  watcher.on('change', handleWatchedFileChange);
 
   wss.on('connection', (ws) => {
     ws.on('message', async (message) => {
