@@ -12,24 +12,31 @@ import React, {
   useMemo,
   useRef,
 } from 'react';
-import { Article } from 'zenn-model';
+import { Article, Chapter } from 'zenn-model';
 
 type ReloadedAt = number;
 type ArticleEvent = {
   type: WS_ServerMessageType;
   article: Article;
 };
+type ChapterEvent = {
+  type: WS_ServerMessageType;
+  bookSlug: string;
+  chapter: Chapter;
+};
 type WebSocketSendResult = { ok: true } | { ok: false; reason: string };
 
 const HotReloadContext = createContext<{
   reloadedAt: ReloadedAt;
   articleEvent: ArticleEvent | null;
+  chapterEvent: ChapterEvent | null;
   connection: {
     sendJson: (message: WS_ClientMessage) => WebSocketSendResult;
   };
 }>({
   reloadedAt: 0,
   articleEvent: null,
+  chapterEvent: null,
   connection: {
     sendJson: () => ({ ok: false, reason: 'not-initialized' }),
   },
@@ -43,27 +50,50 @@ const buildWebSocketUrl = () => {
 const useHotReloadConnection = () => {
   const [reloadedAt, setReloadedAt] = useState<ReloadedAt>(0);
   const [articleEvent, setArticleEvent] = useState<ArticleEvent | null>(null);
+  const [chapterEvent, setChapterEvent] = useState<ChapterEvent | null>(null);
   const socketRef = useRef<WebSocket | null>(null);
   const reconnectTimerRef = useRef<number | null>(null);
   const shouldReconnectRef = useRef(true);
 
-  const handleMessage = useCallback((ev: MessageEvent) => {
-    let res: WS_ServerMessage;
-    try {
-      res = JSON.parse(ev.data) as WS_ServerMessage;
-    } catch (error) {
-      console.error('Failed to parse websocket message', error);
-      return;
-    }
-
-    if (res.type === 'localArticleFileChanged' || res.type === 'articleSaved') {
-      setReloadedAt(Date.now());
-      setArticleEvent({
-        type: res.type,
-        article: res.data.article,
-      });
-    }
+  const bumpReloadedAt = useCallback(() => {
+    setReloadedAt(Date.now());
   }, []);
+
+  const handleMessage = useCallback(
+    (ev: MessageEvent) => {
+      let res: WS_ServerMessage;
+      try {
+        res = JSON.parse(ev.data) as WS_ServerMessage;
+      } catch (error) {
+        console.error('Failed to parse websocket message', error);
+        return;
+      }
+
+      if (
+        res.type === 'localArticleFileChanged' ||
+        res.type === 'articleSaved'
+      ) {
+        bumpReloadedAt();
+        setArticleEvent({
+          type: res.type,
+          article: res.data.article,
+        });
+      }
+
+      if (
+        res.type === 'localChapterFileChanged' ||
+        res.type === 'chapterSaved'
+      ) {
+        bumpReloadedAt();
+        setChapterEvent({
+          type: res.type,
+          bookSlug: res.data.bookSlug,
+          chapter: res.data.chapter,
+        });
+      }
+    },
+    [bumpReloadedAt]
+  );
 
   const teardownSocket = useCallback(() => {
     socketRef.current?.close();
@@ -121,11 +151,12 @@ const useHotReloadConnection = () => {
     () => ({
       reloadedAt,
       articleEvent,
+      chapterEvent,
       connection: {
         sendJson,
       },
     }),
-    [articleEvent, reloadedAt, sendJson]
+    [articleEvent, chapterEvent, reloadedAt, sendJson]
   );
 };
 
@@ -157,6 +188,16 @@ export function useLocalFileChangedEffect(fn: () => void) {
   useEffect(() => {
     if (reloadedAt !== 0) fn();
   }, [reloadedAt]);
+}
+
+export function useChapterChangedEffect(
+  fn: (chapterEvent: ChapterEvent) => void
+) {
+  const { chapterEvent } = useContext(HotReloadContext);
+
+  useEffect(() => {
+    if (chapterEvent !== null) fn(chapterEvent);
+  }, [chapterEvent]);
 }
 
 export function useWebSocket() {

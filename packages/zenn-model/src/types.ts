@@ -97,6 +97,7 @@ export type Chapter = {
   title?: string;
   free?: boolean;
   bodyHtml?: string;
+  markdown?: string; // For Zenn WYSIWYG Editor
   position: null | number;
 };
 

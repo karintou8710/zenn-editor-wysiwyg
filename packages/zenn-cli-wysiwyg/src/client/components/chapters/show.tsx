@@ -1,13 +1,12 @@
-import styled from 'styled-components';
-import { ContentContainer } from '../ContentContainer';
 import { ChapterHeader } from './show/ChapterHeader';
 import { ErrorMessage } from '../ErrorMessage';
-import { BodyContent } from '../BodyContent';
 import { Loading } from '../Loading';
-import { useLocalFileChangedEffect } from '../../hooks/useLocalFileChangedEffect';
+import { useChapterChangedEffect } from '../../hooks/useLocalFileChangedEffect';
 import { useFetch } from '../../hooks/useFetch';
 import { useTitle } from '../../hooks/useTitle';
 import { Book, Chapter } from 'zenn-model';
+import { ChapterContent } from './show/ChapterContent';
+import { useState } from 'react';
 
 type ChapterShowProps = {
   bookSlug: string;
@@ -46,12 +45,28 @@ export const ChapterShow: React.FC<ChapterShowProps> = ({
 
   const chapter = chapterData?.chapter;
 
+  const [localChapterChangedAt, setLocalChapterChangedAt] = useState<number>(0);
+
   useTitle(`${chapter?.title || chapterFilename}のプレビュー`);
 
   // refetch when local file changes
-  useLocalFileChangedEffect(() => {
+  useChapterChangedEffect((chapterEvent) => {
+    const chapter = chapterEvent.chapter;
+    if (bookSlug !== chapterEvent.bookSlug) return;
+    if (chapterFilename !== chapter.filename) return;
+
     mutateBook();
-    mutateChapter();
+    mutateChapter(
+      {
+        chapter,
+      },
+      false
+    );
+
+    if (chapterEvent.type === 'localChapterFileChanged') {
+      // ローカルファイルが更新された場合は、エディタを再レンダリングするためにキーを更新
+      setLocalChapterChangedAt(new Date().getTime());
+    }
   });
 
   if (!book) {
@@ -80,19 +95,12 @@ export const ChapterShow: React.FC<ChapterShowProps> = ({
   return (
     <>
       <ChapterHeader book={book} chapter={chapter} />
-      <ContentContainer>
-        <StyledChapterShow className="book-show">
-          <div className="chapter-show__content">
-            <BodyContent rawHtml={chapter.bodyHtml || ''} />
-          </div>
-        </StyledChapterShow>
-      </ContentContainer>
+      <ChapterContent
+        key={chapter.filename}
+        book={book}
+        chapter={chapter}
+        localChapterChangedAt={localChapterChangedAt}
+      />
     </>
   );
 };
-
-const StyledChapterShow = styled.div`
-  .chapter-show__content {
-    padding: 3rem 0 10rem;
-  }
-`;
