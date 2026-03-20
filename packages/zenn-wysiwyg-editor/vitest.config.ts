@@ -6,6 +6,7 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   plugins: [react()],
   test: {
+    setupFiles: ['./setup-node-test.ts'],
     include: ['src/**/*.spec.ts', 'src/**/*.spec.tsx'],
     exclude: ['src/**/*.browser.spec.ts', 'src/**/*.browser.spec.tsx'], // browser用テストを除外
     environment: 'happy-dom',
