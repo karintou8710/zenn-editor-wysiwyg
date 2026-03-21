@@ -1,8 +1,12 @@
 {
   "packages": [
-    "packages/zenn-cli-wysiwyg",
-    "packages/zenn-wysiwyg-editor"
+    "packages/*"
   ],
+  "command": {
+    "publish": {
+      "scope": "zenn-{cli-wysiwyg,wysiwyg-editor}"
+    }
+  },
   "version": "0.0.23",
   "npmClient": "pnpm"
 }
