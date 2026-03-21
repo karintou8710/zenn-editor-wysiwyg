@@ -1,6 +1,6 @@
 # zenn-wysiwyg-editor
 
-Zenn の記事を WYSIWYG で編集可能なエディタです（非公式）
+Zenn 記事を WYSIWYG で編集可能なエディタです（非公式）
 
 ## 利用方法
 
