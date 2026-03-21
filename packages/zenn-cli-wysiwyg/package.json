@@ -1,6 +1,6 @@
 {
   "name": "zenn-cli-wysiwyg",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "description": "Preview Zenn content locally with wysiwyg editor.",
   "repository": {
     "type": "git",
