@@ -3,12 +3,22 @@
  * 参考：https://vitest.dev/guide/parallelism
  */
 
+import type { Editor } from '@tiptap/react';
 import { it, describe, expect } from 'vitest';
 import { waitSelectionChange } from '../tests/dom';
 import { renderTiptapEditor } from '../tests/browser/editor';
 import { paste, setClipboardContent } from '../tests/browser/clipboard';
+import { waitForBrowserRender } from '../tests/browser/utils';
 import { TEST_ALL_EXTENSIONS } from '../tests/test-extensions';
 import LakeImage from '../tests/assets/sikotuko.jpeg';
+
+// WebKit でペースト時に不具合が出たため、DOM の focus と描画済みの selection をそろえる。
+async function setCursor(editor: Editor, position: number) {
+  editor.view.dom.focus();
+  await waitForBrowserRender();
+  editor.commands.focus(position, { scrollIntoView: false });
+  await waitForBrowserRender();
+}
 
 describe('paste (codeBlock)', () => {
   it('テキストの貼り付け', async () => {
@@ -19,9 +29,7 @@ describe('paste (codeBlock)', () => {
     });
 
     await setClipboardContent('Text');
-    await waitSelectionChange(() => {
-      editor.chain().focus().setTextSelection(4).run();
-    });
+    await setCursor(editor, 4);
     await paste();
 
     const docString = editor.state.doc.toString();
@@ -38,9 +46,7 @@ describe('paste (codeBlock)', () => {
     });
 
     await setClipboardContent('http://example.com');
-    await waitSelectionChange(() => {
-      editor.chain().focus().setTextSelection(4).run();
-    });
+    await setCursor(editor, 4);
     await paste();
 
     const docString = editor.state.doc.toString();
@@ -58,9 +64,7 @@ describe('paste (codeBlock)', () => {
 
     const fullImageUrl = `${location.origin}${LakeImage}`;
     await setClipboardContent(`![支笏湖](${fullImageUrl})`);
-    await waitSelectionChange(() => {
-      editor.chain().focus().setTextSelection(4).run();
-    });
+    await setCursor(editor, 4);
     await paste();
 
     const docString = editor.state.doc.toString();
@@ -79,9 +83,7 @@ describe('paste (diffCodeBlock)', () => {
     });
 
     await setClipboardContent('console.log("hello");');
-    await waitSelectionChange(() => {
-      editor.chain().focus().setTextSelection(5).run();
-    });
+    await setCursor(editor, 5);
     await paste();
 
     const docString = editor.state.doc.toString();
@@ -98,9 +100,7 @@ describe('paste (diffCodeBlock)', () => {
     });
 
     await setClipboardContent('line1\nline2\nline3');
-    await waitSelectionChange(() => {
-      editor.chain().focus().setTextSelection(5).run();
-    });
+    await setCursor(editor, 5);
     await paste();
 
     const docString = editor.state.doc.toString();
@@ -117,9 +117,7 @@ describe('paste (diffCodeBlock)', () => {
     });
 
     await setClipboardContent('function test() {\n\n  return true;\n}');
-    await waitSelectionChange(() => {
-      editor.chain().focus().setTextSelection(5).run();
-    });
+    await setCursor(editor, 5);
     await paste();
 
     const docString = editor.state.doc.toString();
@@ -136,9 +134,7 @@ describe('paste (diffCodeBlock)', () => {
     });
 
     await setClipboardContent('https://example.com/api/endpoint');
-    await waitSelectionChange(() => {
-      editor.chain().focus().setTextSelection(5).run();
-    });
+    await setCursor(editor, 5);
     await paste();
 
     const docString = editor.state.doc.toString();
@@ -157,9 +153,7 @@ describe('paste (diffCodeBlock)', () => {
     await setClipboardContent(
       '+ console.log("added");\n- console.log("removed");'
     );
-    await waitSelectionChange(() => {
-      editor.chain().focus().setTextSelection(5).run();
-    });
+    await setCursor(editor, 5);
     await paste();
 
     const docString = editor.state.doc.toString();
@@ -177,9 +171,7 @@ describe('paste (diffCodeBlock)', () => {
 
     const fullImageUrl = `${location.origin}${LakeImage}`;
     await setClipboardContent(`![支笏湖](${fullImageUrl})`);
-    await waitSelectionChange(() => {
-      editor.chain().focus().setTextSelection(5).run();
-    });
+    await setCursor(editor, 5);
     await paste();
 
     const docString = editor.state.doc.toString();
@@ -198,9 +190,7 @@ describe('paste (figure)', () => {
 
     const fullImageUrl = `${location.origin}${LakeImage}`;
     await setClipboardContent(fullImageUrl);
-    await waitSelectionChange(() => {
-      editor.chain().focus().setTextSelection(1).run();
-    });
+    await setCursor(editor, 1);
     await paste();
 
     const docString = editor.state.doc.toString();
@@ -218,9 +208,7 @@ describe('paste (figure)', () => {
 
     const fullImageUrl = `${location.origin}${LakeImage}`;
     await setClipboardContent(`![支笏湖](${fullImageUrl})`);
-    await waitSelectionChange(() => {
-      editor.chain().focus().setTextSelection(1).run();
-    });
+    await setCursor(editor, 1);
     await paste();
 
     const docString = editor.state.doc.toString();

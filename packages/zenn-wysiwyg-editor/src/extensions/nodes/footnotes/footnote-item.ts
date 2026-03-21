@@ -20,10 +20,10 @@ const FootnoteItem = Node.create({
   addAttributes() {
     return {
       id: {
-        isRequired: true,
+        default: null,
       },
       referenceId: {
-        isRequired: true,
+        default: null,
       },
     };
   },
