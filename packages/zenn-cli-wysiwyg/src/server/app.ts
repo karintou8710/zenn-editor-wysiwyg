@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { type RequestHandler } from 'express';
 import path from 'path';
 import history from 'connect-history-api-fallback';
 import { getArticle, getArticles } from './api/articles';
@@ -31,7 +31,7 @@ export function createApp() {
   });
 
   // serve static files built by vite
-  app.use(history()); // required to directly access non-root pages such as /guide, /articles/foo
+  app.use(history() as unknown as RequestHandler); // required to directly access non-root pages such as /guide, /articles/foo
 
   app.use(
     express.static(path.join(__dirname, '../client'), {

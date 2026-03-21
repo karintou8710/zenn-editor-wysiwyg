@@ -37,6 +37,11 @@ describe('MarkdownからHTMLへの変換テスト', () => {
 
   test('dataスキーマの画像は除外する', () => {
     const html = markdownToHtml(`![](data:image/png;base64,xxxx)`);
-    expect(html).toContain('<img alt class="md-img" loading="lazy" />');
+    const img = parse(html).querySelector('img');
+
+    expect(img).not.toBeNull();
+    expect(img?.getAttribute('src')).toBeUndefined();
+    expect(img?.getAttribute('class')).toBe('md-img');
+    expect(img?.getAttribute('loading')).toBe('lazy');
   });
 });
