@@ -2,15 +2,11 @@
   "packages": [
     "packages/*"
   ],
-<<<<<<< Updated upstream
-  "version": "0.0.23",
-=======
   "command": {
     "publish": {
       "scope": "zenn-{cli-wysiwyg,wysiwyg-editor}"
     }
   },
-  "version": "0.0.21",
->>>>>>> Stashed changes
+  "version": "0.0.23",
   "npmClient": "pnpm"
 }
