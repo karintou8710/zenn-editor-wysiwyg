@@ -1,5 +1,6 @@
 import 'zenn-wysiwyg-editor/dist/style.css';
 
+import type { ComponentType } from 'react';
 import { useEffect, useState } from 'react';
 import { parseToc } from 'zenn-markdown-html';
 import type { TocNode } from 'zenn-model/lib/types';
@@ -11,6 +12,8 @@ import { usePersistedState } from './hooks/use-persisted-state';
 import styles from './app.module.css';
 import FixedMenu from './components/fixed-menu';
 import { showToast } from './lib/toast';
+
+const SonnerToaster = Toaster as unknown as ComponentType;
 
 function App() {
   const [toc, setToc] = useState<TocNode[]>([]);
@@ -63,7 +66,7 @@ function App() {
         </div>
       </div>
 
-      <Toaster />
+      <SonnerToaster />
     </div>
   );
 }

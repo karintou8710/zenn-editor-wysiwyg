@@ -69,7 +69,7 @@ describe('preview コマンドのテスト', () => {
     await exec([]);
     expect(server.startLocalChangesWatcher).toHaveBeenCalledWith(
       mockReturnServer,
-      `${process.cwd()}/{articles,books}/**/*`
+      [`${process.cwd()}/articles`, `${process.cwd()}/books`]
     );
   });
 

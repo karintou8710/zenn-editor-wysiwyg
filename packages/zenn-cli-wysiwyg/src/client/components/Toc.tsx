@@ -42,6 +42,7 @@ type TocProps = {
  * @param maxDepth 最大何層目までの見出しを目次に含めるか
  */
 export const Toc: React.FC<TocProps> = ({ ...tocListProps }) => {
+  const isEmptyToc = tocListProps.toc.length === 0;
   const [isTocFolded, setIsTocFolded] = usePersistedState<boolean>({
     cacheKey: 'fold-toc',
     defaultValue: false,
@@ -61,7 +62,13 @@ export const Toc: React.FC<TocProps> = ({ ...tocListProps }) => {
         </div>
 
         <div className="toc">
-          <TocList {...tocListProps} />
+          {isEmptyToc ? (
+            <div className="toc__placeholder">
+              見出しを追加するとここに目次が表示されます
+            </div>
+          ) : (
+            <TocList {...tocListProps} />
+          )}
         </div>
       </div>
     </BodyStyledToc>
@@ -157,6 +164,11 @@ const BodyStyledToc = styled.div`
         }
       }
     }
+  }
+  .toc__placeholder {
+    font-size: 0.85rem;
+    color: var(--c-gray-lighter);
+    padding: 0.2rem 0;
   }
   .toc:hover {
     .toc__list-item__id-copy-button {
