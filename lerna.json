@@ -1,8 +1,16 @@
 {
   "packages": [
-    "packages/zenn-cli-wysiwyg",
-    "packages/zenn-wysiwyg-editor"
+    "packages/*"
   ],
+<<<<<<< Updated upstream
   "version": "0.0.23",
+=======
+  "command": {
+    "publish": {
+      "scope": "zenn-{cli-wysiwyg,wysiwyg-editor}"
+    }
+  },
+  "version": "0.0.21",
+>>>>>>> Stashed changes
   "npmClient": "pnpm"
 }
